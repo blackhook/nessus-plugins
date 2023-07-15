@@ -1,0 +1,259 @@
+##
+# (C) Tenable, Inc.
+#
+# The descriptive text and package checks in this plugin were
+# extracted from Red Hat Security Advisory RHSA-2020:0591. The text
+# itself is copyright (C) Red Hat, Inc.
+##
+
+include('compat.inc');
+
+if (description)
+{
+  script_id(134063);
+  script_version("1.9");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2023/01/23");
+
+  script_cve_id(
+    "CVE-2018-8777",
+    "CVE-2018-8780",
+    "CVE-2018-1000073",
+    "CVE-2018-1000074",
+    "CVE-2018-1000075",
+    "CVE-2018-1000076",
+    "CVE-2018-1000077",
+    "CVE-2018-1000078",
+    "CVE-2018-1000079"
+  );
+  script_bugtraq_id(103683, 103739);
+  script_xref(name:"RHSA", value:"2020:0591");
+
+  script_name(english:"RHEL 7 : ruby (RHSA-2020:0591)");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote Red Hat host is missing one or more security updates.");
+  script_set_attribute(attribute:"description", value:
+"The remote Redhat Enterprise Linux 7 host has packages installed that are affected by multiple vulnerabilities as
+referenced in the RHSA-2020:0591 advisory.
+
+  - rubygems: Path traversal when writing to a symlinked basedir outside of the root (CVE-2018-1000073)
+
+  - rubygems: Unsafe Object Deserialization Vulnerability in gem owner allowing arbitrary code execution on
+    specially crafted YAML (CVE-2018-1000074)
+
+  - rubygems: Infinite loop vulnerability due to negative size in tar header causes Denial of Service
+    (CVE-2018-1000075)
+
+  - rubygems: Improper verification of signatures in tarball allows to install mis-signed gem
+    (CVE-2018-1000076)
+
+  - rubygems: Missing URL validation on spec home attribute allows malicious gem to set an invalid homepage
+    URL (CVE-2018-1000077)
+
+  - rubygems: XSS vulnerability in homepage attribute when displayed via gem server (CVE-2018-1000078)
+
+  - rubygems: Path traversal issue during gem installation allows to write to arbitrary filesystem locations
+    (CVE-2018-1000079)
+
+  - ruby: DoS by large request in WEBrick (CVE-2018-8777)
+
+  - ruby: Unintentional directory traversal by poisoned NULL byte in Dir (CVE-2018-8780)
+
+Note that Nessus has not tested for these issues but has instead relied only on the application's self-reported version
+number.");
+  script_set_attribute(attribute:"see_also", value:"https://access.redhat.com/security/cve/CVE-2018-8777");
+  script_set_attribute(attribute:"see_also", value:"https://access.redhat.com/security/cve/CVE-2018-8780");
+  script_set_attribute(attribute:"see_also", value:"https://access.redhat.com/security/cve/CVE-2018-1000073");
+  script_set_attribute(attribute:"see_also", value:"https://access.redhat.com/security/cve/CVE-2018-1000074");
+  script_set_attribute(attribute:"see_also", value:"https://access.redhat.com/security/cve/CVE-2018-1000075");
+  script_set_attribute(attribute:"see_also", value:"https://access.redhat.com/security/cve/CVE-2018-1000076");
+  script_set_attribute(attribute:"see_also", value:"https://access.redhat.com/security/cve/CVE-2018-1000077");
+  script_set_attribute(attribute:"see_also", value:"https://access.redhat.com/security/cve/CVE-2018-1000078");
+  script_set_attribute(attribute:"see_also", value:"https://access.redhat.com/security/cve/CVE-2018-1000079");
+  script_set_attribute(attribute:"see_also", value:"https://access.redhat.com/errata/RHSA-2020:0591");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.redhat.com/1547418");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.redhat.com/1547419");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.redhat.com/1547420");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.redhat.com/1547421");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.redhat.com/1547422");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.redhat.com/1547425");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.redhat.com/1547426");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.redhat.com/1561949");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.redhat.com/1561950");
+  script_set_attribute(attribute:"solution", value:
+"Update the affected packages.");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:N/C:P/I:P/A:P");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2018-8780");
+  script_set_attribute(attribute:"cvss3_score_source", value:"CVE-2018-1000076");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"false");
+  script_cwe_id(20, 22, 79, 347, 400, 502, 626, 835);
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2018/02/26");
+  script_set_attribute(attribute:"patch_publication_date", value:"2020/02/25");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2020/02/26");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:redhat:rhel_aus:7.4");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:redhat:rhel_e4s:7.4");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:redhat:rhel_tus:7.4");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:ruby");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:ruby-devel");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:ruby-doc");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:ruby-irb");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:ruby-libs");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:ruby-tcltk");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:rubygem-bigdecimal");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:rubygem-io-console");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:rubygem-json");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:rubygem-minitest");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:rubygem-psych");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:rubygem-rake");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:rubygem-rdoc");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:rubygems");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:redhat:enterprise_linux:rubygems-devel");
+  script_set_attribute(attribute:"generated_plugin", value:"current");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Red Hat Local Security Checks");
+
+  script_copyright(english:"This script is Copyright (C) 2020-2023 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("ssh_get_info.nasl", "redhat_repos.nasl");
+  script_require_keys("Host/local_checks_enabled", "Host/RedHat/release", "Host/RedHat/rpm-list", "Host/cpu");
+
+  exit(0);
+}
+
+
+include('rpm.inc');
+include('rhel.inc');
+
+if (!get_kb_item('Host/local_checks_enabled')) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+var os_release = get_kb_item('Host/RedHat/release');
+if (isnull(os_release) || 'Red Hat' >!< os_release) audit(AUDIT_OS_NOT, 'Red Hat');
+var os_ver = pregmatch(pattern: "Red Hat Enterprise Linux.*release ([0-9]+(\.[0-9]+)?)", string:os_release);
+if (isnull(os_ver)) audit(AUDIT_UNKNOWN_APP_VER, 'Red Hat');
+os_ver = os_ver[1];
+if (!rhel_check_release(operator: 'eq', os_version: os_ver, rhel_version: '7.4')) audit(AUDIT_OS_NOT, 'Red Hat 7.4', 'Red Hat ' + os_ver);
+
+if (!get_kb_item('Host/RedHat/rpm-list')) audit(AUDIT_PACKAGE_LIST_MISSING);
+
+var cpu = get_kb_item('Host/cpu');
+if (isnull(cpu)) audit(AUDIT_UNKNOWN_ARCH);
+if ('x86_64' >!< cpu && cpu !~ "^i[3-6]86$" && 's390' >!< cpu && 'aarch64' >!< cpu) audit(AUDIT_LOCAL_CHECKS_NOT_IMPLEMENTED, 'Red Hat', cpu);
+
+var constraints = [
+  {
+    'repo_relative_urls': [
+      'content/aus/rhel/server/7/7.4/x86_64/debug',
+      'content/aus/rhel/server/7/7.4/x86_64/optional/debug',
+      'content/aus/rhel/server/7/7.4/x86_64/optional/os',
+      'content/aus/rhel/server/7/7.4/x86_64/optional/source/SRPMS',
+      'content/aus/rhel/server/7/7.4/x86_64/os',
+      'content/aus/rhel/server/7/7.4/x86_64/source/SRPMS',
+      'content/e4s/rhel/server/7/7.4/x86_64/debug',
+      'content/e4s/rhel/server/7/7.4/x86_64/highavailability/debug',
+      'content/e4s/rhel/server/7/7.4/x86_64/highavailability/os',
+      'content/e4s/rhel/server/7/7.4/x86_64/highavailability/source/SRPMS',
+      'content/e4s/rhel/server/7/7.4/x86_64/optional/debug',
+      'content/e4s/rhel/server/7/7.4/x86_64/optional/os',
+      'content/e4s/rhel/server/7/7.4/x86_64/optional/source/SRPMS',
+      'content/e4s/rhel/server/7/7.4/x86_64/os',
+      'content/e4s/rhel/server/7/7.4/x86_64/sap-hana/debug',
+      'content/e4s/rhel/server/7/7.4/x86_64/sap-hana/os',
+      'content/e4s/rhel/server/7/7.4/x86_64/sap-hana/source/SRPMS',
+      'content/e4s/rhel/server/7/7.4/x86_64/sap/debug',
+      'content/e4s/rhel/server/7/7.4/x86_64/sap/os',
+      'content/e4s/rhel/server/7/7.4/x86_64/sap/source/SRPMS',
+      'content/e4s/rhel/server/7/7.4/x86_64/source/SRPMS',
+      'content/tus/rhel/server/7/7.4/x86_64/debug',
+      'content/tus/rhel/server/7/7.4/x86_64/optional/debug',
+      'content/tus/rhel/server/7/7.4/x86_64/optional/os',
+      'content/tus/rhel/server/7/7.4/x86_64/optional/source/SRPMS',
+      'content/tus/rhel/server/7/7.4/x86_64/os',
+      'content/tus/rhel/server/7/7.4/x86_64/source/SRPMS'
+    ],
+    'pkgs': [
+      {'reference':'ruby-2.0.0.648-35.el7_4', 'sp':'4', 'cpu':'x86_64', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'ruby-devel-2.0.0.648-35.el7_4', 'sp':'4', 'cpu':'x86_64', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'ruby-doc-2.0.0.648-35.el7_4', 'sp':'4', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'ruby-irb-2.0.0.648-35.el7_4', 'sp':'4', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'ruby-libs-2.0.0.648-35.el7_4', 'sp':'4', 'cpu':'i686', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'ruby-libs-2.0.0.648-35.el7_4', 'sp':'4', 'cpu':'x86_64', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'ruby-tcltk-2.0.0.648-35.el7_4', 'sp':'4', 'cpu':'x86_64', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'rubygem-bigdecimal-1.2.0-35.el7_4', 'sp':'4', 'cpu':'x86_64', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'rubygem-io-console-0.4.2-35.el7_4', 'sp':'4', 'cpu':'x86_64', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'rubygem-json-1.7.7-35.el7_4', 'sp':'4', 'cpu':'x86_64', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'rubygem-minitest-4.3.2-35.el7_4', 'sp':'4', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'rubygem-psych-2.0.0-35.el7_4', 'sp':'4', 'cpu':'x86_64', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'rubygem-rake-0.9.6-35.el7_4', 'sp':'4', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'rubygem-rdoc-4.0.0-35.el7_4', 'sp':'4', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'rubygems-2.0.14.1-35.el7_4', 'sp':'4', 'release':'7', 'rpm_spec_vers_cmp':TRUE},
+      {'reference':'rubygems-devel-2.0.14.1-35.el7_4', 'sp':'4', 'release':'7', 'rpm_spec_vers_cmp':TRUE}
+    ]
+  }
+];
+
+var applicable_repo_urls = rhel_determine_applicable_repository_urls(constraints:constraints);
+if(applicable_repo_urls == RHEL_REPOS_NO_OVERLAP_MESSAGE) exit(0, RHEL_REPO_NOT_ENABLED);
+
+var flag = 0;
+foreach var constraint_array ( constraints ) {
+  var repo_relative_urls = NULL;
+  if (!empty_or_null(constraint_array['repo_relative_urls'])) repo_relative_urls = constraint_array['repo_relative_urls'];
+  foreach var pkg ( constraint_array['pkgs'] ) {
+    var reference = NULL;
+    var _release = NULL;
+    var sp = NULL;
+    var _cpu = NULL;
+    var el_string = NULL;
+    var rpm_spec_vers_cmp = NULL;
+    var epoch = NULL;
+    var allowmaj = NULL;
+    var exists_check = NULL;
+    if (!empty_or_null(pkg['reference'])) reference = pkg['reference'];
+    if (!empty_or_null(pkg['release'])) _release = 'RHEL' + pkg['release'];
+    if (!empty_or_null(pkg['sp'])) sp = pkg['sp'];
+    if (!empty_or_null(pkg['cpu'])) _cpu = pkg['cpu'];
+    if (!empty_or_null(pkg['el_string'])) el_string = pkg['el_string'];
+    if (!empty_or_null(pkg['rpm_spec_vers_cmp'])) rpm_spec_vers_cmp = pkg['rpm_spec_vers_cmp'];
+    if (!empty_or_null(pkg['epoch'])) epoch = pkg['epoch'];
+    if (!empty_or_null(pkg['allowmaj'])) allowmaj = pkg['allowmaj'];
+    if (!empty_or_null(pkg['exists_check'])) exists_check = pkg['exists_check'];
+    if (reference &&
+        _release &&
+        rhel_decide_repo_relative_url_check(required_repo_url_list:repo_relative_urls) &&
+        (applicable_repo_urls || (!exists_check || rpm_exists(release:_release, rpm:exists_check))) &&
+        rpm_check(release:_release, sp:sp, cpu:_cpu, reference:reference, epoch:epoch, el_string:el_string, rpm_spec_vers_cmp:rpm_spec_vers_cmp, allowmaj:allowmaj)) flag++;
+  }
+}
+
+if (flag)
+{
+  var subscription_caveat = '\n' +
+    'NOTE: This vulnerability check contains fixes that apply to\n' +
+    'packages only available in the Red Hat Enterprise Linux\n' +
+    'Advanced Update Support, Telco Extended Update Support or Update Services for SAP Solutions repositories.\n' +
+    'Access to these repositories requires a paid RHEL subscription.\n';
+  var extra = NULL;
+  if (empty_or_null(applicable_repo_urls)) extra = subscription_caveat + rpm_report_get() + redhat_report_repo_caveat();
+  else extra = subscription_caveat + rpm_report_get() + redhat_report_package_caveat();
+  security_report_v4(
+      port       : 0,
+      severity   : SECURITY_HOLE,
+      extra      : extra
+  );
+  exit(0);
+}
+else
+{
+  var tested = pkg_tests_get();
+  if (tested) audit(AUDIT_PACKAGE_NOT_AFFECTED, tested);
+  else audit(AUDIT_PACKAGE_NOT_INSTALLED, 'ruby / ruby-devel / ruby-doc / ruby-irb / ruby-libs / ruby-tcltk / etc');
+}

@@ -1,0 +1,109 @@
+#%NASL_MIN_LEVEL 70300
+#
+# (C) Tenable Network Security, Inc.
+#
+# The descriptive text in this plugin was
+# extracted from the Oracle SunOS Patch Updates.
+#
+include('deprecated_nasl_level.inc');
+include('compat.inc');
+
+if (description)
+{
+  script_id(107896);
+  script_version("1.5");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2021/01/14");
+
+  script_cve_id("CVE-2014-4239");
+
+  script_name(english:"Solaris 10 (x86) : 123896-77");
+  script_summary(english:"Check for patch 123896-77");
+
+  script_set_attribute(
+    attribute:"synopsis", 
+    value:"The remote host is missing Sun Security Patch number 123896-77"
+  );
+  script_set_attribute(
+    attribute:"description", 
+    value:
+"Vulnerability in the Solaris component of Oracle Enterprise Manager
+Grid Control (subcomponent: Common Agent Container (Cacao)). Supported
+versions that are affected are 2.3.1.0, 2.3.1.1, 2.3.1.2, 2.4.0.0,
+2.4.1.0 and 2.4.2.0. Easily exploitable vulnerability allows
+successful authenticated network attacks via SSL/TLS. Successful
+attack of this vulnerability can result in unauthorized read access to
+a subset of Solaris accessible data. Note: Applies only when Cacao is
+running on Solaris platform.
+
+Vulnerability in the Solaris component of Oracle Enterprise Manager
+Grid Control (subcomponent: Common Agent Container (Cacao)). Supported
+versions that are affected are 2.3.1.0, 2.3.1.1, 2.3.1.2, 2.4.0.0,
+2.4.1.0 and 2.4.2.0. Easily exploitable vulnerability allows
+successful authenticated network attacks via SSL/TLS. Successful
+attack of this vulnerability can result in unauthorized read access to
+a subset of Solaris accessible data. Note: Applies only when Cacao is
+running on Solaris platform."
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://getupdates.oracle.com/readme/123896-77"
+  );
+  script_set_attribute(attribute:"solution", value:"Install patch 123896-77 or higher");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:S/C:P/I:N/A:N");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2014-4239");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:solaris:10:123896");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:solaris:10:124466");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:oracle:solaris:10");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2014/07/17");
+  script_set_attribute(attribute:"patch_publication_date", value:"2014/05/07");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2018/03/12");
+  script_set_attribute(attribute:"generated_plugin", value:"current");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_copyright(english:"This script is Copyright (C) 2018-2021 and is owned by Tenable, Inc. or an Affiliate thereof.");
+  script_family(english:"Solaris Local Security Checks");
+
+  script_dependencies("ssh_get_info.nasl");
+  script_require_keys("Host/local_checks_enabled", "Host/Solaris/showrev");
+
+  exit(0);
+}
+
+
+include("audit.inc");
+include("global_settings.inc");
+include("misc_func.inc");
+include("solaris.inc");
+
+showrev = get_kb_item("Host/Solaris/showrev");
+if (empty_or_null(showrev)) audit(AUDIT_OS_NOT, "Solaris");
+os_ver = pregmatch(pattern:"Release: (\d+.(\d+))", string:showrev);
+if (empty_or_null(os_ver)) audit(AUDIT_UNKNOWN_APP_VER, "Solaris");
+full_ver = os_ver[1];
+os_level = os_ver[2];
+if (full_ver != "5.10") audit(AUDIT_OS_NOT, "Solaris 10", "Solaris " + os_level);
+package_arch = pregmatch(pattern:"Application architecture: (\w+)", string:showrev);
+if (empty_or_null(package_arch)) audit(AUDIT_UNKNOWN_ARCH);
+package_arch = package_arch[1];
+if (package_arch != "i386") audit(AUDIT_ARCH_NOT, "i386", package_arch);
+if (!get_kb_item("Host/local_checks_enabled")) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+
+if (solaris_check_patch(release:"5.10_x86", arch:"i386", patch:"123896-77", obsoleted_by:"", package:"SUNWcacaort", version:"2.0,REV=15") < 0) flag++;
+
+if (flag) {
+  security_report_v4(
+    port       : 0,
+    severity   : SECURITY_WARNING,
+    extra      : solaris_get_report()
+  );
+} else {
+  patch_fix = solaris_patch_fix_get();
+  if (!empty_or_null(patch_fix)) audit(AUDIT_PATCH_INSTALLED, patch_fix, "Solaris 10");
+  tested = solaris_pkg_tests_get();
+  if (!empty_or_null(tested)) audit(AUDIT_PACKAGE_NOT_AFFECTED, tested);
+  audit(AUDIT_PACKAGE_NOT_INSTALLED, "SUNWcacaort");
+}

@@ -1,0 +1,186 @@
+#%NASL_MIN_LEVEL 70300
+##
+# (C) Tenable, Inc.
+##
+
+include('deprecated_nasl_level.inc');
+include('compat.inc');
+
+if (description)
+{
+  script_id(159262);
+  script_version("1.6");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2023/04/25");
+
+  script_cve_id(
+    "CVE-2021-0920",
+    "CVE-2021-0941",
+    "CVE-2021-3772",
+    "CVE-2021-4037",
+    "CVE-2021-4083",
+    "CVE-2021-4135",
+    "CVE-2021-4157",
+    "CVE-2021-20321",
+    "CVE-2021-33098",
+    "CVE-2021-38209",
+    "CVE-2021-39633",
+    "CVE-2021-39634",
+    "CVE-2021-44733"
+  );
+  script_xref(name:"CISA-KNOWN-EXPLOITED", value:"2022/06/13");
+
+  script_name(english:"EulerOS 2.0 SP8 : kernel (EulerOS-SA-2022-1352)");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote EulerOS host is missing multiple security updates.");
+  script_set_attribute(attribute:"description", value:
+"According to the versions of the kernel packages installed, the EulerOS installation on the remote host is affected by
+the following vulnerabilities :
+
+  - In unix_scm_to_skb of af_unix.c, there is a possible use after free bug due to a race condition. This
+    could lead to local escalation of privilege with System execution privileges needed. User interaction is
+    not needed for exploitation.Product: AndroidVersions: Android kernelAndroid ID: A-196926917References:
+    Upstream kernel (CVE-2021-0920)
+
+  - In bpf_skb_change_head of filter.c, there is a possible out of bounds read due to a use after free. This
+    could lead to local escalation of privilege with System execution privileges needed. User interaction is
+    not needed for exploitation.Product: AndroidVersions: Android kernelAndroid ID: A-154177719References:
+    Upstream kernel (CVE-2021-0941)
+
+  - A race condition accessing file object in the Linux kernel OverlayFS subsystem was found in the way users
+    do rename in specific way with OverlayFS. A local user could use this flaw to crash the system.
+    (CVE-2021-20321)
+
+  - Improper input validation in the Intel(R) Ethernet ixgbe driver for Linux before version 3.17.3 may allow
+    an authenticated user to potentially enable denial of service via local access. (CVE-2021-33098)
+
+  - A flaw was found in the Linux SCTP stack. A blind attacker may be able to kill an existing SCTP
+    association through invalid chunks if the attacker knows the IP-addresses and port numbers being used and
+    the attacker can send packets with spoofed IP addresses. (CVE-2021-3772)
+
+  - net/netfilter/nf_conntrack_standalone.c in the Linux kernel before 5.12.2 allows observation of changes in
+    any net namespace because these changes are leaked into all other net namespaces. This is related to the
+    NF_SYSCTL_CT_MAX, NF_SYSCTL_CT_EXPECT_MAX, and NF_SYSCTL_CT_BUCKETS sysctls. (CVE-2021-38209)
+
+  - In gre_handle_offloads of ip_gre.c, there is a possible page fault due to an invalid memory access. This
+    could lead to local information disclosure with no additional execution privileges needed. User
+    interaction is not needed for exploitation.Product: AndroidVersions: Android kernelAndroid ID:
+    A-150694665References: Upstream kernel (CVE-2021-39633)
+
+  - In fs/eventpoll.c, there is a possible use after free. This could lead to local escalation of privilege
+    with no additional execution privileges needed. User interaction is not needed for exploitation.Product:
+    AndroidVersions: Android kernelAndroid ID: A-204450605References: Upstream kernel (CVE-2021-39634)
+
+  - A read-after-free memory flaw was found in the Linux kernel's garbage collection for Unix domain socket
+    file handlers in the way users call close() and fget() simultaneously and can potentially trigger a race
+    condition. This flaw allows a local user to crash the system or escalate their privileges on the system.
+    This flaw affects Linux kernel versions prior to 5.16-rc4. (CVE-2021-4083)
+
+  - An out of memory bounds write flaw (1 or 2 bytes of memory) in the Linux kernel NFS subsystem was found in
+    the way users use mirroring (replication of files with NFS). A user, having access to the NFS mount, could
+    potentially use this flaw to crash the system or escalate privileges on the system. (CVE-2021-4157)
+
+  - A use-after-free exists in drivers/tee/tee_shm.c in the TEE subsystem in the Linux kernel through 5.15.11.
+    This occurs because of a race condition in tee_shm_get_from_id during an attempt to free a shared memory
+    object. (CVE-2021-44733)
+
+Note that Tenable Network Security has extracted the preceding description block directly from the EulerOS security
+advisory. Tenable has attempted to automatically clean and format it as much as possible without introducing additional
+issues.");
+  # https://developer.huaweicloud.com/ict/en/site-euleros/euleros/security-advisories/EulerOS-SA-2022-1352
+  script_set_attribute(attribute:"see_also", value:"http://www.nessus.org/u?b8952979");
+  script_set_attribute(attribute:"solution", value:
+"Update the affected kernel packages.");
+  script_set_cvss_base_vector("CVSS2#AV:A/AC:M/Au:S/C:C/I:C/A:C");
+  script_set_cvss_temporal_vector("CVSS2#E:F/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:A/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:F/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2021-4157");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"Exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"true");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2021/08/08");
+  script_set_attribute(attribute:"patch_publication_date", value:"2022/03/28");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2022/03/28");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:bpftool");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:kernel");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:kernel-devel");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:kernel-headers");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:kernel-tools");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:kernel-tools-libs");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:perf");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:python-perf");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:python3-perf");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:huawei:euleros:2.0");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Huawei Local Security Checks");
+
+  script_copyright(english:"This script is Copyright (C) 2022-2023 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("ssh_get_info.nasl");
+  script_require_keys("Host/local_checks_enabled", "Host/cpu", "Host/EulerOS/release", "Host/EulerOS/rpm-list", "Host/EulerOS/sp");
+  script_exclude_keys("Host/EulerOS/uvp_version");
+
+  exit(0);
+}
+
+include("audit.inc");
+include("global_settings.inc");
+include("rpm.inc");
+
+if (!get_kb_item("Host/local_checks_enabled")) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+
+var release = get_kb_item("Host/EulerOS/release");
+if (isnull(release) || release !~ "^EulerOS") audit(AUDIT_OS_NOT, "EulerOS");
+var uvp = get_kb_item("Host/EulerOS/uvp_version");
+if (release !~ "^EulerOS release 2\.0(\D|$)") audit(AUDIT_OS_NOT, "EulerOS 2.0 SP8");
+
+var sp = get_kb_item("Host/EulerOS/sp");
+if (isnull(sp) || sp !~ "^(8)$") audit(AUDIT_OS_NOT, "EulerOS 2.0 SP8");
+
+if (!empty_or_null(uvp)) audit(AUDIT_OS_NOT, "EulerOS 2.0 SP8", "EulerOS UVP " + uvp);
+
+if (!get_kb_item("Host/EulerOS/rpm-list")) audit(AUDIT_PACKAGE_LIST_MISSING);
+
+var cpu = get_kb_item("Host/cpu");
+if (isnull(cpu)) audit(AUDIT_UNKNOWN_ARCH);
+if ("x86_64" >!< cpu && cpu !~ "^i[3-6]86$" && "aarch64" >!< cpu) audit(AUDIT_LOCAL_CHECKS_NOT_IMPLEMENTED, "EulerOS", cpu);
+if ("aarch64" >!< cpu) audit(AUDIT_ARCH_NOT, "aarch64", cpu);
+
+var flag = 0;
+
+var pkgs = [
+  "bpftool-4.19.36-vhulk1907.1.0.h1164.eulerosv2r8",
+  "kernel-4.19.36-vhulk1907.1.0.h1164.eulerosv2r8",
+  "kernel-devel-4.19.36-vhulk1907.1.0.h1164.eulerosv2r8",
+  "kernel-headers-4.19.36-vhulk1907.1.0.h1164.eulerosv2r8",
+  "kernel-tools-4.19.36-vhulk1907.1.0.h1164.eulerosv2r8",
+  "kernel-tools-libs-4.19.36-vhulk1907.1.0.h1164.eulerosv2r8",
+  "perf-4.19.36-vhulk1907.1.0.h1164.eulerosv2r8",
+  "python-perf-4.19.36-vhulk1907.1.0.h1164.eulerosv2r8",
+  "python3-perf-4.19.36-vhulk1907.1.0.h1164.eulerosv2r8"
+];
+
+foreach (var pkg in pkgs)
+  if (rpm_check(release:"EulerOS-2.0", sp:"8", reference:pkg)) flag++;
+
+if (flag)
+{
+  security_report_v4(
+    port       : 0,
+    severity   : SECURITY_HOLE,
+    extra      : rpm_report_get()
+  );
+  exit(0);
+}
+else
+{
+  var tested = pkg_tests_get();
+  if (tested) audit(AUDIT_PACKAGE_NOT_AFFECTED, tested);
+  else audit(AUDIT_PACKAGE_NOT_INSTALLED, "kernel");
+}

@@ -1,0 +1,117 @@
+##
+# (C) Tenable, Inc.
+##
+
+include('compat.inc');
+
+if (description)
+{
+  script_id(163298);
+  script_version("1.8");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2023/01/18");
+
+  script_cve_id(
+    "CVE-2019-17566",
+    "CVE-2020-2351",
+    "CVE-2020-11987",
+    "CVE-2020-28491",
+    "CVE-2020-36518",
+    "CVE-2021-23450",
+    "CVE-2021-26291",
+    "CVE-2021-40690",
+    "CVE-2022-21548",
+    "CVE-2022-21557",
+    "CVE-2022-21560",
+    "CVE-2022-21564",
+    "CVE-2022-22965",
+    "CVE-2022-23457",
+    "CVE-2022-24839",
+    "CVE-2022-29577"
+  );
+  script_xref(name:"CISA-KNOWN-EXPLOITED", value:"2022/04/25");
+  script_xref(name:"IAVA", value:"2022-A-0285");
+  script_xref(name:"CEA-ID", value:"CEA-2021-0004");
+  script_xref(name:"CEA-ID", value:"CEA-2021-0025");
+
+  script_name(english:"Oracle WebLogic Server (Jul 2022 CPU)");
+
+  script_set_attribute(attribute:"synopsis", value:
+"An application server installed on the remote host is affected by multiple vulnerabilities");
+  script_set_attribute(attribute:"description", value:
+"The version of Oracle WebLogic Server installed on the remote host is missing a security patch from the July 2022
+Critical Patch Update (CPU). It is, therefore, affected by multiple vulnerabilities, including:
+
+  - Vulnerability in the Oracle WebLogic Server product of Oracle Fusion Middleware (component: Third Party
+    Tools, Samples (Spring Framework)). Supported versions that are affected are 12.2.1.3.0, 12.2.1.4.0 and
+    14.1.1.0.0. Easily exploitable vulnerability allows unauthenticated attacker with network access via HTTP
+    to compromise Oracle WebLogic Server. Successful attacks of this vulnerability can result in takeover of
+    Oracle WebLogic Server. (CVE-2022-22965)
+
+  - Vulnerability in the Oracle WebLogic Server product of Oracle Fusion Middleware (component: Centralized
+    Third Party Jars (OWASP Enterprise Security API)). Supported versions that are affected are 12.2.1.3.0,
+    12.2.1.4.0 and 14.1.1.0.0. Easily exploitable vulnerability allows unauthenticated attacker with network
+    access via HTTP to compromise Oracle WebLogic Server. Successful attacks of this vulnerability can result
+    in takeover of Oracle WebLogic Server. (CVE-2022-23457)
+
+  - Vulnerability in the Oracle WebLogic Server product of Oracle Fusion Middleware (component: Centralized
+    Third Party Jars (Apache Maven)). Supported versions that are affected are 12.2.1.3.0 and 12.2.1.4.0.
+    Easily exploitable vulnerability allows unauthenticated attacker with network access via HTTP to
+    compromise Oracle WebLogic Server. Successful attacks of this vulnerability can result in unauthorized
+    creation, deletion or modification access to critical data or all Oracle WebLogic Server accessible data
+    as well as unauthorized access to critical data or complete access to all Oracle WebLogic Server
+    accessible data. (CVE-2021-26291)
+
+Note that Nessus has not tested for these issues but has instead relied only on the application's self-reported version
+number.");
+  script_set_attribute(attribute:"see_also", value:"https://www.oracle.com/docs/tech/security-alerts/cpujul2022cvrf.xml");
+  script_set_attribute(attribute:"see_also", value:"https://www.oracle.com/security-alerts/cpujul2022.html");
+  script_set_attribute(attribute:"solution", value:
+"Apply the appropriate patch according to the July 2022 Oracle Critical Patch Update advisory.");
+  script_set_attribute(attribute:"agent", value:"all");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:N/C:P/I:P/A:P");
+  script_set_cvss_temporal_vector("CVSS2#E:H/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:H/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2022-23457");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"Exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"true");
+  script_set_attribute(attribute:"exploit_framework_core", value:"true");
+  script_set_attribute(attribute:"exploited_by_malware", value:"true");
+  script_set_attribute(attribute:"metasploit_name", value:'Spring Framework Class property RCE (Spring4Shell)');
+  script_set_attribute(attribute:"exploit_framework_metasploit", value:"true");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2022/07/19");
+  script_set_attribute(attribute:"patch_publication_date", value:"2022/07/19");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2022/07/20");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"cpe:/a:oracle:fusion_middleware");
+  script_set_attribute(attribute:"cpe", value:"cpe:/a:oracle:weblogic_server");
+  script_set_attribute(attribute:"stig_severity", value:"I");
+  script_set_attribute(attribute:"thorough_tests", value:"true");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Misc.");
+
+  script_copyright(english:"This script is Copyright (C) 2022-2023 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("oracle_weblogic_server_installed.nbin", "os_fingerprint.nasl");
+  script_require_keys("installed_sw/Oracle WebLogic Server");
+
+  exit(0);
+}
+
+include('vcf.inc');
+include('vcf_extras_oracle.inc');
+
+var app_info = vcf::oracle_weblogic::get_app_info();
+
+var constraints = [
+  { 'min_version' : '12.2.1.3.0', 'fixed_version' : '12.2.1.3.220620', 'fixed_display' : '34298772 or 34373534' },
+  { 'min_version' : '12.2.1.4.0', 'fixed_version' : '12.2.1.4.220602', 'fixed_display' : '34236279 or 34373563' },
+  { 'min_version' : '14.1.1.0.0', 'fixed_version' : '14.1.1.0.220727', 'fixed_display' : '34429365 or 34445145' }
+];
+
+vcf::oracle_weblogic::check_version_and_report(app_info:app_info, constraints:constraints, severity:SECURITY_HOLE);

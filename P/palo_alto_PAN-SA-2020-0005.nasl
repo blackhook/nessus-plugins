@@ -1,0 +1,80 @@
+#
+# (C) Tenable Network Security, Inc.
+#
+
+include('compat.inc');
+
+if (description)
+{
+  script_id(138037);
+  script_version("1.2");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2020/10/13");
+
+  script_cve_id("CVE-2016-10012");
+
+  script_name(english:"Palo Alto Networks PAN-OS 7.1.x < 7.1.26 / 8.0.x < 8.1.13 / 8.1.x < 8.1.13 / 9.0.x < 9.0.1 Vulnerability");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote PAN-OS host is affected by vulnerability");
+  script_set_attribute(attribute:"description", value:
+"The version of Palo Alto Networks PAN-OS running on the remote host is 7.1.x prior to 7.1.26 or 8.0.x prior to 8.1.13 or
+8.1.x prior to 8.1.13 or 9.0.x prior to 9.0.1. It is, therefore, affected by a vulnerability.
+
+  - OpenSSH software included with PAN-OS has been upgraded
+    to resolve security vulnerability CVE-2016-10012.
+    Additionally, code changes have been made to the server
+    component of the OpenSSH software included in PAN-OS in
+    response to CVE-2015-8325 and CVE-2016-1908 though PAN-
+    OS is not impacted by these issues. (PAN-SA-2020-0005)
+
+Note that Nessus has not tested for this issue but has instead relied only on the application's self-reported version
+number.");
+  script_set_attribute(attribute:"see_also", value:"https://security.paloaltonetworks.com/PAN-SA-2020-0005");
+  script_set_attribute(attribute:"see_also", value:"https://cwe.mitre.org/data/definitions/119.html");
+  script_set_attribute(attribute:"solution", value:
+"Upgrade to PAN-OS 7.1.26 / 8.1.13 / 8.1.13 / 9.0.1 or later");
+  script_set_cvss_base_vector("CVSS2#AV:L/AC:L/Au:N/C:C/I:C/A:C");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2016-10012");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+  script_cwe_id(119);
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2020/05/13");
+  script_set_attribute(attribute:"patch_publication_date", value:"2020/05/13");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2020/07/02");
+
+  script_set_attribute(attribute:"plugin_type", value:"combined");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:paloaltonetworks:pan-os");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Palo Alto Local Security Checks");
+
+  script_copyright(english:"This script is Copyright (C) 2020 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("palo_alto_version.nbin");
+  script_require_keys("Host/Palo_Alto/Firewall/Version", "Host/Palo_Alto/Firewall/Full_Version", "Host/Palo_Alto/Firewall/Source");
+
+  exit(0);
+}
+
+include('vcf.inc');
+include('vcf_extras.inc');
+
+vcf::palo_alto::initialize();
+
+app_name = 'Palo Alto Networks PAN-OS';
+
+app_info = vcf::get_app_info(app:app_name, kb_ver:'Host/Palo_Alto/Firewall/Full_Version', kb_source:'Host/Palo_Alto/Firewall/Source');
+
+constraints = [
+  { 'min_version' : '7.1.0', 'fixed_version' : '7.1.26' },
+  { 'min_version' : '8.0.0', 'fixed_version' : '8.1.13' },
+  { 'min_version' : '8.1.0', 'fixed_version' : '8.1.13' },
+  { 'min_version' : '9.0.0', 'fixed_version' : '9.0.1' }
+];
+
+vcf::check_version_and_report(app_info:app_info, constraints:constraints, severity:SECURITY_HOLE);

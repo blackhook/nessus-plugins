@@ -1,0 +1,123 @@
+#
+# (C) Tenable Network Security, Inc.
+#
+
+include("compat.inc");
+
+if (description)
+{
+  script_id(90543);
+  script_version("1.10");
+  script_cvs_date("Date: 2019/11/20");
+
+  script_cve_id(
+    "CVE-2016-1651",
+    "CVE-2016-1652",
+    "CVE-2016-1653",
+    "CVE-2016-1654",
+    "CVE-2016-1655",
+    "CVE-2016-1656",
+    "CVE-2016-1657",
+    "CVE-2016-1658",
+    "CVE-2016-1659"
+  );
+
+  script_name(english:"Google Chrome < 50.0.2661.75 Multiple Vulnerabilities");
+  script_summary(english:"Checks the version of Google Chrome.");
+
+  script_set_attribute(attribute:"synopsis", value:
+"A web browser installed on the remote Mac OS X host is affected by
+multiple vulnerabilities.");
+  script_set_attribute(attribute:"description", value:
+"The version of Google Chrome installed on the remote Mac OS X host is
+prior to 50.0.2661.75. It is, therefore, affected by multiple
+vulnerabilities :
+
+  - An out-of-bounds read error exists in PDFium in the
+    sycc420_to_rgb() and sycc422_to_rgb() functions within
+    file fxcodec/codec/fx_codec_jpx_opj.cpp that is
+    triggered when decoding JPEG2000 images. An
+    unauthenticated, remote attacker can exploit this to
+    cause a denial of service or disclose memory contents.
+    (CVE-2016-1651)
+
+  - A cross-site scripting vulnerability exists due to
+    a failure by extension bindings to validate input before
+    returning it to users. An unauthenticated, remote
+    attacker can exploit this, via a crafted request, to
+    execute arbitrary script code in the user's browser
+    session. (CVE-2016-1652)
+
+  - An out-of-bounds write error exists in Google V8,
+    related to the LoadBuffer operator, that is triggered
+    when handling typed arrays. An unauthenticated, remote
+    attacker can exploit this to corrupt memory, resulting
+    in a denial of service or the execution of arbitrary
+    code. (CVE-2016-1653)
+
+  - An uninitialized memory read error exists in media
+    that allows an attacker to have an unspecified impact.
+    No other details are available. (CVE-2016-1654)
+
+  - A use-after-free error exists in extensions that is
+    triggered when handling frame removal by content
+    scripts. An unauthenticated, remote attacker can exploit
+    this to dereference already freed memory, resulting in
+    arbitrary code execution. (CVE-2016-1655)
+
+  - A flaw exists, related to content disposition, due to
+    the improper sanitization of the names of downloaded
+    files. An unauthenticated, remote attacker can exploit
+    this to bypass path restrictions. (CVE-2016-1656)
+
+  - A flaw exists in the FocusLocationBarByDefault()
+    function of the WebContentsImpl class within the file
+    content/browser/web_contents/web_contents_impl.cc that
+    allows an authenticated, remote attacker to spoof the
+    address bar. (CVE-2016-1657)
+
+  - An unspecified flaw exists that allows an
+    unauthenticated, remote attacker to access sensitive
+    information by using malicious extensions.
+    (CVE-2016-1658)
+
+  - Multiple vulnerabilities exist in Chrome, the most
+    serious of which allow an unauthenticated, remote
+    attacker to execute arbitrary code. (CVE-2016-1659)");
+  # http://googlechromereleases.blogspot.com/2016/04/stable-channel-update_13.html
+  script_set_attribute(attribute:"see_also", value:"http://www.nessus.org/u?d2fb8d51");
+  script_set_attribute(attribute:"solution", value:
+"Upgrade to Google Chrome version 50.0.2661.75 or later.");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:N/C:C/I:C/A:C");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2016-1659");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"false");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2015/10/22");
+  script_set_attribute(attribute:"patch_publication_date", value:"2016/04/13");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2016/04/15");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"cpe:/a:google:chrome");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"MacOS X Local Security Checks");
+
+  script_copyright(english:"This script is Copyright (C) 2016-2019 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("macosx_google_chrome_installed.nbin");
+  script_require_keys("MacOSX/Google Chrome/Installed");
+
+  exit(0);
+}
+
+include("google_chrome_version.inc");
+
+get_kb_item_or_exit("MacOSX/Google Chrome/Installed");
+
+google_chrome_check_version(fix:'50.0.2661.75', severity:SECURITY_HOLE, xss:TRUE);

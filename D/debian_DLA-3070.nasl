@@ -1,0 +1,130 @@
+#
+# (C) Tenable, Inc.
+#
+# The descriptive text and package checks in this plugin were
+# extracted from Debian Security Advisory dla-3070. The text
+# itself is copyright (C) Software in the Public Interest, Inc.
+#
+
+include('compat.inc');
+
+if (description)
+{
+  script_id(164081);
+  script_version("1.4");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2023/03/21");
+
+  script_cve_id("CVE-2021-4209", "CVE-2022-2509");
+
+  script_name(english:"Debian DLA-3070-1 : gnutls28 - LTS security update");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote Debian host is missing one or more security-related updates.");
+  script_set_attribute(attribute:"description", value:
+"The remote Debian 10 host has packages installed that are affected by multiple vulnerabilities as referenced in the
+dla-3070 advisory.
+
+  - A vulnerability found in gnutls. This security flaw happens because of a double free error occurs during
+    verification of pkcs7 signatures in gnutls_pkcs7_verify function. (CVE-2022-2509)
+
+  - A NULL pointer dereference flaw was found in GnuTLS. As Nettle's hash update functions internally call
+    memcpy, providing zero-length input may cause undefined behavior. This flaw leads to a denial of service
+    after authentication in rare circumstances. (CVE-2021-4209)
+
+Note that Nessus has not tested for these issues but has instead relied only on the application's self-reported version
+number.");
+  script_set_attribute(attribute:"see_also", value:"https://security-tracker.debian.org/tracker/source-package/gnutls28");
+  script_set_attribute(attribute:"see_also", value:"https://www.debian.org/lts/security/2022/dla-3070");
+  script_set_attribute(attribute:"see_also", value:"https://security-tracker.debian.org/tracker/CVE-2021-4209");
+  script_set_attribute(attribute:"see_also", value:"https://security-tracker.debian.org/tracker/CVE-2022-2509");
+  script_set_attribute(attribute:"see_also", value:"https://packages.debian.org/source/buster/gnutls28");
+  script_set_attribute(attribute:"solution", value:
+"Upgrade the gnutls28 packages.
+
+For Debian 10 buster, these problems have been fixed in version 3.6.7-4+deb10u9.");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:N/C:N/I:N/A:C");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2022-2509");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"false");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2022/08/01");
+  script_set_attribute(attribute:"patch_publication_date", value:"2022/08/11");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2022/08/11");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:debian:debian_linux:gnutls-bin");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:debian:debian_linux:gnutls-doc");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:debian:debian_linux:libgnutls-dane0");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:debian:debian_linux:libgnutls-openssl27");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:debian:debian_linux:libgnutls28-dev");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:debian:debian_linux:libgnutls30");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:debian:debian_linux:libgnutlsxx28");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:debian:debian_linux:10.0");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Debian Local Security Checks");
+
+  script_copyright(english:"This script is Copyright (C) 2022-2023 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("ssh_get_info.nasl");
+  script_require_keys("Host/local_checks_enabled", "Host/Debian/release", "Host/Debian/dpkg-l");
+
+  exit(0);
+}
+
+include('debian_package.inc');
+
+if (!get_kb_item("Host/local_checks_enabled")) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+if (!get_kb_item("Host/Debian/dpkg-l")) audit(AUDIT_PACKAGE_LIST_MISSING);
+
+var release = get_kb_item('Host/Debian/release');
+if ( isnull(release) ) audit(AUDIT_OS_NOT, 'Debian');
+var release = chomp(release);
+if (! preg(pattern:"^(10)\.[0-9]+", string:release)) audit(AUDIT_OS_NOT, 'Debian 10.0', 'Debian ' + release);
+var cpu = get_kb_item('Host/cpu');
+if (isnull(cpu)) audit(AUDIT_UNKNOWN_ARCH);
+if ('x86_64' >!< cpu && cpu !~ "^i[3-6]86$" && 'aarch64' >!< cpu) audit(AUDIT_LOCAL_CHECKS_NOT_IMPLEMENTED, 'Debian', cpu);
+
+var pkgs = [
+    {'release': '10.0', 'prefix': 'gnutls-bin', 'reference': '3.6.7-4+deb10u9'},
+    {'release': '10.0', 'prefix': 'gnutls-doc', 'reference': '3.6.7-4+deb10u9'},
+    {'release': '10.0', 'prefix': 'libgnutls-dane0', 'reference': '3.6.7-4+deb10u9'},
+    {'release': '10.0', 'prefix': 'libgnutls-openssl27', 'reference': '3.6.7-4+deb10u9'},
+    {'release': '10.0', 'prefix': 'libgnutls28-dev', 'reference': '3.6.7-4+deb10u9'},
+    {'release': '10.0', 'prefix': 'libgnutls30', 'reference': '3.6.7-4+deb10u9'},
+    {'release': '10.0', 'prefix': 'libgnutlsxx28', 'reference': '3.6.7-4+deb10u9'}
+];
+
+var flag = 0;
+foreach package_array ( pkgs ) {
+  var release = NULL;
+  var prefix = NULL;
+  var reference = NULL;
+  if (!empty_or_null(package_array['release'])) release = package_array['release'];
+  if (!empty_or_null(package_array['prefix'])) prefix = package_array['prefix'];
+  if (!empty_or_null(package_array['reference'])) reference = package_array['reference'];
+  if (release && prefix && reference) {
+    if (deb_check(release:release, prefix:prefix, reference:reference)) flag++;
+  }
+}
+
+if (flag)
+{
+  security_report_v4(
+    port       : 0,
+    severity   : SECURITY_HOLE,
+    extra      : deb_report_get()
+  );
+  exit(0);
+}
+else
+{
+  var tested = deb_pkg_tests_get();
+  if (tested) audit(AUDIT_PACKAGE_NOT_AFFECTED, tested);
+  else audit(AUDIT_PACKAGE_NOT_INSTALLED, 'gnutls-bin / gnutls-doc / libgnutls-dane0 / libgnutls-openssl27 / etc');
+}

@@ -1,0 +1,6 @@
+
+#
+# @DEPRECATED@
+#
+exit(0);
+

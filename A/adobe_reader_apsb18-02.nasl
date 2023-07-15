@@ -1,0 +1,127 @@
+#
+# (C) Tenable Network Security, Inc.
+#
+
+include("compat.inc");
+
+if (description)
+{
+  script_id(106846);
+  script_version("1.10");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2020/06/24");
+
+  script_cve_id(
+    "CVE-2018-4872",
+    "CVE-2018-4879",
+    "CVE-2018-4880",
+    "CVE-2018-4881",
+    "CVE-2018-4882",
+    "CVE-2018-4883",
+    "CVE-2018-4884",
+    "CVE-2018-4885",
+    "CVE-2018-4886",
+    "CVE-2018-4887",
+    "CVE-2018-4888",
+    "CVE-2018-4889",
+    "CVE-2018-4890",
+    "CVE-2018-4891",
+    "CVE-2018-4892",
+    "CVE-2018-4893",
+    "CVE-2018-4894",
+    "CVE-2018-4895",
+    "CVE-2018-4896",
+    "CVE-2018-4897",
+    "CVE-2018-4898",
+    "CVE-2018-4899",
+    "CVE-2018-4900",
+    "CVE-2018-4901",
+    "CVE-2018-4902",
+    "CVE-2018-4903",
+    "CVE-2018-4904",
+    "CVE-2018-4905",
+    "CVE-2018-4906",
+    "CVE-2018-4907",
+    "CVE-2018-4908",
+    "CVE-2018-4909",
+    "CVE-2018-4910",
+    "CVE-2018-4911",
+    "CVE-2018-4912",
+    "CVE-2018-4913",
+    "CVE-2018-4914",
+    "CVE-2018-4915",
+    "CVE-2018-4916",
+    "CVE-2018-4917",
+    "CVE-2018-4918",
+    "CVE-2018-4997",
+    "CVE-2018-4998",
+    "CVE-2018-4999"
+  );
+  script_bugtraq_id(
+    102992,
+    102993,
+    102994,
+    102995,
+    102996
+  );
+
+  script_name(english:"Adobe Reader <= 2015.006.30394 / 2017.011.30070 / 2018.009.20050 Multiple Vulnerabilities (APSB18-02)");
+  script_summary(english:"Checks the version of Adobe Reader.");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The version of Adobe Reader installed on the remote Windows host is
+affected by multiple vulnerabilities.");
+
+  script_set_attribute(attribute:"description", value:
+"The version of Adobe Reader installed on the remote Windows host is a
+version prior or equal to 2015.006.30394, 2017.011.30070, or
+2018.009.20050. It is, therefore, affected by multiple
+vulnerabilities.
+
+Note that Nessus has not tested for these issues but has instead
+relied only on the application's self-reported version number.");
+  script_set_attribute(attribute:"see_also", value:"https://helpx.adobe.com/security/products/acrobat/apsb18-02.html");
+  script_set_attribute(attribute:"solution", value:
+"Upgrade to Adobe Reader 2015.006.30413 / 2017.011.30078
+/ 2018.011.20035 or later.");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:N/C:C/I:C/A:C");
+  script_set_cvss_temporal_vector("CVSS2#E:H/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:H/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2018-4872");
+  script_set_attribute(attribute:"exploitability_ease", value:"Exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"true");
+  script_set_attribute(attribute:"exploited_by_malware", value:"true");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2018/02/13");
+  script_set_attribute(attribute:"patch_publication_date", value:"2018/02/13");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2018/02/15");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"cpe:/a:adobe:acrobat_reader");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Windows");
+
+  script_copyright(english:"This script is Copyright (C) 2018-2020 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("adobe_reader_installed.nasl");
+  script_require_keys("SMB/Registry/Enumerated", "installed_sw/Adobe Reader");
+
+  exit(0);
+}
+
+include("vcf.inc");
+include("vcf_extras.inc");
+
+get_kb_item_or_exit("SMB/Registry/Enumerated");
+
+app_info = vcf::adobe_reader::get_app_info();
+constraints = [
+  { "min_version" : "15.6", "max_version" : "15.6.30394", "fixed_version" : "15.6.30413" },
+  { "min_version" : "17.8", "max_version" : "17.11.30070", "fixed_version" : "17.11.30078" },
+  { "min_version" : "15.7", "max_version" : "18.9.20050", "fixed_version" : "18.11.20035" }
+];
+# using adobe_reader namespace check_version_and_report to properly detect Continuous vs Classic, 
+# and limit ver segments to 3 (18.x.y vs 18.x.y.12345) with max_segs:3
+vcf::adobe_reader::check_version_and_report(app_info:app_info, constraints:constraints, severity:SECURITY_HOLE, max_segs:3);

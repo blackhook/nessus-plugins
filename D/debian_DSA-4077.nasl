@@ -1,0 +1,140 @@
+#%NASL_MIN_LEVEL 70300
+#
+# (C) Tenable Network Security, Inc.
+#
+# The descriptive text and package checks in this plugin were  
+# extracted from Debian Security Advisory DSA-4077. The text 
+# itself is copyright (C) Software in the Public Interest, Inc.
+#
+
+include('deprecated_nasl_level.inc');
+include('compat.inc');
+
+if (description)
+{
+  script_id(105499);
+  script_version("3.6");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2021/01/04");
+
+  script_cve_id("CVE-2017-17784", "CVE-2017-17785", "CVE-2017-17786", "CVE-2017-17787", "CVE-2017-17788", "CVE-2017-17789");
+  script_xref(name:"DSA", value:"4077");
+
+  script_name(english:"Debian DSA-4077-1 : gimp - security update");
+  script_summary(english:"Checks dpkg output for the updated package");
+
+  script_set_attribute(
+    attribute:"synopsis", 
+    value:"The remote Debian host is missing a security-related update."
+  );
+  script_set_attribute(
+    attribute:"description", 
+    value:
+"Several vulnerabilities were discovered in GIMP, the GNU Image
+Manipulation Program, which could result in denial of service
+(application crash) or potentially the execution of arbitrary code if
+malformed files are opened."
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=884836"
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=884837"
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=884862"
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=884925"
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=884927"
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=885347"
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://security-tracker.debian.org/tracker/source-package/gimp"
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://packages.debian.org/source/jessie/gimp"
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://packages.debian.org/source/stretch/gimp"
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://www.debian.org/security/2017/dsa-4077"
+  );
+  script_set_attribute(
+    attribute:"solution", 
+    value:
+"Upgrade the gimp packages.
+
+For the oldstable distribution (jessie), these problems have been
+fixed in version 2.8.14-1+deb8u2.
+
+For the stable distribution (stretch), these problems have been fixed
+in version 2.8.18-1+deb9u1."
+  );
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:M/Au:N/C:P/I:P/A:P");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:debian:debian_linux:gimp");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:debian:debian_linux:8.0");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:debian:debian_linux:9.0");
+
+  script_set_attribute(attribute:"patch_publication_date", value:"2017/12/30");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2018/01/02");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_copyright(english:"This script is Copyright (C) 2018-2021 and is owned by Tenable, Inc. or an Affiliate thereof.");
+  script_family(english:"Debian Local Security Checks");
+
+  script_dependencies("ssh_get_info.nasl");
+  script_require_keys("Host/local_checks_enabled", "Host/Debian/release", "Host/Debian/dpkg-l");
+
+  exit(0);
+}
+
+
+include("audit.inc");
+include("debian_package.inc");
+
+
+if (!get_kb_item("Host/local_checks_enabled")) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+if (!get_kb_item("Host/Debian/release")) audit(AUDIT_OS_NOT, "Debian");
+if (!get_kb_item("Host/Debian/dpkg-l")) audit(AUDIT_PACKAGE_LIST_MISSING);
+
+
+flag = 0;
+if (deb_check(release:"8.0", prefix:"gimp", reference:"2.8.14-1+deb8u2")) flag++;
+if (deb_check(release:"8.0", prefix:"gimp-data", reference:"2.8.14-1+deb8u2")) flag++;
+if (deb_check(release:"8.0", prefix:"gimp-dbg", reference:"2.8.14-1+deb8u2")) flag++;
+if (deb_check(release:"8.0", prefix:"libgimp2.0", reference:"2.8.14-1+deb8u2")) flag++;
+if (deb_check(release:"8.0", prefix:"libgimp2.0-dev", reference:"2.8.14-1+deb8u2")) flag++;
+if (deb_check(release:"8.0", prefix:"libgimp2.0-doc", reference:"2.8.14-1+deb8u2")) flag++;
+if (deb_check(release:"9.0", prefix:"gimp", reference:"2.8.18-1+deb9u1")) flag++;
+if (deb_check(release:"9.0", prefix:"gimp-data", reference:"2.8.18-1+deb9u1")) flag++;
+if (deb_check(release:"9.0", prefix:"gimp-dbg", reference:"2.8.18-1+deb9u1")) flag++;
+if (deb_check(release:"9.0", prefix:"libgimp2.0", reference:"2.8.18-1+deb9u1")) flag++;
+if (deb_check(release:"9.0", prefix:"libgimp2.0-dev", reference:"2.8.18-1+deb9u1")) flag++;
+if (deb_check(release:"9.0", prefix:"libgimp2.0-doc", reference:"2.8.18-1+deb9u1")) flag++;
+
+if (flag)
+{
+  if (report_verbosity > 0) security_warning(port:0, extra:deb_report_get());
+  else security_warning(0);
+  exit(0);
+}
+else audit(AUDIT_HOST_NOT, "affected");

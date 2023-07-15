@@ -1,0 +1,108 @@
+#%NASL_MIN_LEVEL 80900
+## 
+# (C) Tenable, Inc.
+#                                  
+# The descriptive text and package checks in this plugin were
+# extracted from Mozilla Foundation Security Advisory mfsa2022-40.
+# The text itself is copyright (C) Mozilla Foundation.
+##
+
+include('compat.inc');
+
+if (description)
+{
+  script_id(165262);
+  script_version("1.11");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2023/01/30");
+
+  script_cve_id(
+    "CVE-2022-3266",
+    "CVE-2022-40956",
+    "CVE-2022-40957",
+    "CVE-2022-40958",
+    "CVE-2022-40959",
+    "CVE-2022-40960",
+    "CVE-2022-40961",
+    "CVE-2022-40962",
+    "CVE-2022-46880"
+  );
+  script_xref(name:"IAVA", value:"2022-A-0384-S");
+  script_xref(name:"IAVA", value:"2022-A-0517-S");
+  script_xref(name:"IAVA", value:"2023-A-0009-S");
+
+  script_name(english:"Mozilla Firefox < 105.0");
+
+  script_set_attribute(attribute:"synopsis", value:
+"A web browser installed on the remote Windows host is affected by multiple vulnerabilities.");
+  script_set_attribute(attribute:"description", value:
+"The version of Firefox installed on the remote Windows host is prior to 105.0. It is, therefore, affected by multiple
+vulnerabilities as referenced in the mfsa2022-40 advisory.
+
+  - During iframe navigation, certain pages did not have their FeaturePolicy fully initialized leading to a
+    bypass that leaked device permissions into untrusted subdocuments. (CVE-2022-40959)
+
+  - Concurrent use of the URL parser with non-UTF-8 data was not thread-safe. This could lead to a use-after-
+    free causing a potentially exploitable crash. (CVE-2022-40960)
+
+  - By injecting a cookie with certain special characters, an attacker on a shared subdomain which is not a
+    secure context could set and thus overwrite cookies from a secure context, leading to session fixation and
+    other attacks. (CVE-2022-40958)
+
+  - During startup, a graphics driver with an unexpected name could lead to a stack-buffer overflow causing a
+    potentially exploitable crash. This issue only affects Firefox for Android. Other operating systems are
+    not affected. (CVE-2022-40961)
+
+  - When injecting an HTML base element, some requests would ignore the CSP's base-uri settings and accept the
+    injected element's base instead. (CVE-2022-40956)
+
+  - Inconsistent data in instruction and data cache when creating wasm code could lead to a potentially
+    exploitable crash. This bug only affects Firefox on ARM64 platforms. (CVE-2022-40957)
+
+  - Mozilla developers Nika Layzell, Timothy Nikkel, Jeff Muizelaar, Sebastian Hengst, Andreas Pehrson, and
+    the Mozilla Fuzzing Team reported memory safety bugs present in Firefox 104 and Firefox ESR 102.2. Some of
+    these bugs showed evidence of memory corruption and we presume that with enough effort some of these could
+    have been exploited to run arbitrary code. (CVE-2022-40962)
+
+Note that Nessus has not tested for these issues but has instead relied only on the application's self-reported version
+number.");
+  script_set_attribute(attribute:"see_also", value:"https://www.mozilla.org/en-US/security/advisories/mfsa2022-40/");
+  script_set_attribute(attribute:"solution", value:
+"Upgrade to Mozilla Firefox version 105.0 or later.");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:N/C:C/I:C/A:C");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2022-40962");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"false");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2022/09/20");
+  script_set_attribute(attribute:"patch_publication_date", value:"2022/09/20");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2022/09/20");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"cpe:/a:mozilla:firefox");
+  script_set_attribute(attribute:"stig_severity", value:"I");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Windows");
+
+  script_copyright(english:"This script is Copyright (C) 2022-2023 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("mozilla_org_installed.nasl");
+  script_require_keys("Mozilla/Firefox/Version");
+
+  exit(0);
+}
+
+include('mozilla_version.inc');
+
+var port = get_kb_item('SMB/transport');
+if (!port) port = 445;
+
+var installs = get_kb_list('SMB/Mozilla/Firefox/*');
+if (isnull(installs)) audit(AUDIT_NOT_INST, 'Firefox');
+
+mozilla_check_version(installs:installs, product:'firefox', esr:FALSE, fix:'105.0', severity:SECURITY_HOLE);

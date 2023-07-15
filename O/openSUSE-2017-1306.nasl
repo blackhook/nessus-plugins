@@ -1,0 +1,170 @@
+#%NASL_MIN_LEVEL 70300
+#
+# (C) Tenable Network Security, Inc.
+#
+# The descriptive text and package checks in this plugin were
+# extracted from openSUSE Security Update openSUSE-2017-1306.
+#
+# The text description of this plugin is (C) SUSE LLC.
+#
+
+include('deprecated_nasl_level.inc');
+include('compat.inc');
+
+if (description)
+{
+  script_id(104769);
+  script_version("3.5");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2021/01/19");
+
+  script_cve_id("CVE-2017-15923");
+
+  script_name(english:"openSUSE Security Update : konversation (openSUSE-2017-1306)");
+  script_summary(english:"Check for the openSUSE-2017-1306 patch");
+
+  script_set_attribute(
+    attribute:"synopsis", 
+    value:"The remote openSUSE host is missing a security update."
+  );
+  script_set_attribute(
+    attribute:"description", 
+    value:
+"This update for konversation fixes the following issues :
+
+Security issue fixed :
+
+  - CVE-2017-15923: Fixed a crash in parsing IRC color
+    formatting codes (boo#1068097).
+
+Bug fixes :
+
+  - Update to version 1.7.4 :
+
+  - Fixed a bug causing the size of a custom chat text view
+    font set via the configuration dialog to be ignored. A
+    font size modification done via the Enlarge/Decrease
+    Font Size actions is now applied on top of the
+    configured size (or the system default font size,
+    respectively).
+
+  - Update to 1.7.3 :
+
+  - Added a copy action to the context menu of nicknames in
+    the chat text view.
+
+  - Re-enabled channel mode buttons.
+
+  - Reduced emission of Unicode directional control
+    characters in the chat text view. Unnecessary control
+    characters could sometimes cause problems with copying
+    text from Konversation and pasting it into terminal
+    applications, confusing them.
+
+  - Fixed handling of nick and channel prefix characters
+    potentially using the same set of symbols.
+
+  - Removed redundant escaping of angle brackets in GECOS
+    ('realname') field.
+
+  - The nickname combobox will no longer change the nickname
+    to the current value whenvever it loses focus.
+
+  - Fixed color scheme handling in the treelist version on
+    the tab bar, fixing an issue where the background and
+    text color of the selected item would sometimes be the
+    same, rendering the item unreadable.
+
+  - Fixed handling of IRC URLs for channels starting with
+    more than one #, addressing a percent-encoding problem
+    with bookmarks of them.
+
+  - Fixed custom chat text view font family reverting to
+    system default font family upon using the
+    increase/decrease font size actions.
+
+  - Fixed chat text view font size adjusted via the
+    increase/decrease font size actions reverting to
+    configuration default when OK'ing the config dialog.
+
+  - Fixed incorrect checkbox states in the Channel Invite
+    dialog.
+
+  - Fixed a crash in IRC v3 extended-join parsing.
+
+  - Fixed a crash in parsing IRC color formatting codes.
+
+  - Fixed a minor memory leak in the Join Channel dialog
+    code.
+
+  - Removed unnecessary nickname list debug message sent as
+    warning.
+
+  - Trim description from redundant phrasing, and ensure
+    neutrality."
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://bugzilla.opensuse.org/show_bug.cgi?id=1068097"
+  );
+  script_set_attribute(
+    attribute:"solution", 
+    value:"Update the affected konversation packages."
+  );
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:N/C:N/I:N/A:P");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:konversation");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:konversation-debuginfo");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:konversation-debugsource");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:konversation-lang");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:novell:opensuse:42.3");
+
+  script_set_attribute(attribute:"patch_publication_date", value:"2017/11/25");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2017/11/27");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_copyright(english:"This script is Copyright (C) 2017-2021 Tenable Network Security, Inc.");
+  script_family(english:"SuSE Local Security Checks");
+
+  script_dependencies("ssh_get_info.nasl");
+  script_require_keys("Host/local_checks_enabled", "Host/SuSE/release", "Host/SuSE/rpm-list", "Host/cpu");
+
+  exit(0);
+}
+
+
+include("audit.inc");
+include("global_settings.inc");
+include("rpm.inc");
+
+if (!get_kb_item("Host/local_checks_enabled")) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+release = get_kb_item("Host/SuSE/release");
+if (isnull(release) || release =~ "^(SLED|SLES)") audit(AUDIT_OS_NOT, "openSUSE");
+if (release !~ "^(SUSE42\.3)$") audit(AUDIT_OS_RELEASE_NOT, "openSUSE", "42.3", release);
+if (!get_kb_item("Host/SuSE/rpm-list")) audit(AUDIT_PACKAGE_LIST_MISSING);
+
+ourarch = get_kb_item("Host/cpu");
+if (!ourarch) audit(AUDIT_UNKNOWN_ARCH);
+if (ourarch !~ "^(i586|i686|x86_64)$") audit(AUDIT_ARCH_NOT, "i586 / i686 / x86_64", ourarch);
+
+flag = 0;
+
+if ( rpm_check(release:"SUSE42.3", reference:"konversation-1.7.4-3.1") ) flag++;
+if ( rpm_check(release:"SUSE42.3", reference:"konversation-debuginfo-1.7.4-3.1") ) flag++;
+if ( rpm_check(release:"SUSE42.3", reference:"konversation-debugsource-1.7.4-3.1") ) flag++;
+if ( rpm_check(release:"SUSE42.3", reference:"konversation-lang-1.7.4-3.1") ) flag++;
+
+if (flag)
+{
+  if (report_verbosity > 0) security_warning(port:0, extra:rpm_report_get());
+  else security_warning(0);
+  exit(0);
+}
+else
+{
+  tested = pkg_tests_get();
+  if (tested) audit(AUDIT_PACKAGE_NOT_AFFECTED, tested);
+  else audit(AUDIT_PACKAGE_NOT_INSTALLED, "konversation / konversation-debuginfo / konversation-debugsource / etc");
+}

@@ -1,0 +1,153 @@
+#
+# (C) Tenable Network Security, Inc.
+#
+# The descriptive text and package checks in this plugin were
+# extracted from Red Hat Security Advisory RHSA-2018:1883 and 
+# Oracle Linux Security Advisory ELSA-2018-1883 respectively.
+#
+
+include("compat.inc");
+
+if (description)
+{
+  script_id(110705);
+  script_version("1.4");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2020/09/10");
+
+  script_cve_id("CVE-2018-1050");
+  script_xref(name:"RHSA", value:"2018:1883");
+
+  script_name(english:"Oracle Linux 6 : samba4 (ELSA-2018-1883)");
+  script_summary(english:"Checks rpm output for the updated packages");
+
+  script_set_attribute(
+    attribute:"synopsis",
+    value:"The remote Oracle Linux host is missing one or more security updates."
+  );
+  script_set_attribute(
+    attribute:"description",
+    value:
+"From Red Hat Security Advisory 2018:1883 :
+
+An update for samba4 is now available for Red Hat Enterprise Linux 6.
+
+Red Hat Product Security has rated this update as having a security
+impact of Low. A Common Vulnerability Scoring System (CVSS) base
+score, which gives a detailed severity rating, is available for each
+vulnerability from the CVE link (s) in the References section.
+
+Samba is an open source implementation of the Server Message Block
+(SMB) or Common Internet File System (CIFS) protocol, which allows
+PC-compatible machines to share files, printers, and other
+information.
+
+Security Fix(es) :
+
+* samba: NULL pointer indirection in printer server process
+(CVE-2018-1050)
+
+For more details about the security issue(s), including the impact, a
+CVSS score, and other related information, refer to the CVE page(s)
+listed in the References section.
+
+Red Hat would like to thank the Samba project for reporting this
+issue.
+
+Additional Changes :
+
+For detailed information on changes in this release, see the Red Hat
+Enterprise Linux 6.10 Release Notes and Red Hat Enterprise Linux 6.10
+Technical Notes linked from the References section."
+  );
+  script_set_attribute(
+    attribute:"see_also",
+    value:"https://oss.oracle.com/pipermail/el-errata/2018-June/007810.html"
+  );
+  script_set_attribute(
+    attribute:"solution",
+    value:"Update the affected samba4 packages."
+  );
+  script_set_cvss_base_vector("CVSS2#AV:A/AC:L/Au:N/C:N/I:N/A:P");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4-client");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4-common");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4-dc");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4-dc-libs");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4-devel");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4-libs");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4-pidl");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4-python");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4-test");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4-winbind");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4-winbind-clients");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:samba4-winbind-krb5-locator");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:oracle:linux:6");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2018/03/13");
+  script_set_attribute(attribute:"patch_publication_date", value:"2018/06/26");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2018/06/27");
+  script_set_attribute(attribute:"generated_plugin", value:"current");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_copyright(english:"This script is Copyright (C) 2018-2020 and is owned by Tenable, Inc. or an Affiliate thereof.");
+  script_family(english:"Oracle Linux Local Security Checks");
+
+  script_dependencies("ssh_get_info.nasl");
+  script_require_keys("Host/local_checks_enabled", "Host/OracleLinux", "Host/RedHat/release", "Host/RedHat/rpm-list");
+
+  exit(0);
+}
+
+
+include("audit.inc");
+include("global_settings.inc");
+include("rpm.inc");
+
+
+if (!get_kb_item("Host/local_checks_enabled")) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+if (!get_kb_item("Host/OracleLinux")) audit(AUDIT_OS_NOT, "Oracle Linux");
+release = get_kb_item("Host/RedHat/release");
+if (isnull(release) || !pregmatch(pattern: "Oracle (?:Linux Server|Enterprise Linux)", string:release)) audit(AUDIT_OS_NOT, "Oracle Linux");
+os_ver = pregmatch(pattern: "Oracle (?:Linux Server|Enterprise Linux) .*release ([0-9]+(\.[0-9]+)?)", string:release);
+if (isnull(os_ver)) audit(AUDIT_UNKNOWN_APP_VER, "Oracle Linux");
+os_ver = os_ver[1];
+if (! preg(pattern:"^6([^0-9]|$)", string:os_ver)) audit(AUDIT_OS_NOT, "Oracle Linux 6", "Oracle Linux " + os_ver);
+
+if (!get_kb_item("Host/RedHat/rpm-list")) audit(AUDIT_PACKAGE_LIST_MISSING);
+
+cpu = get_kb_item("Host/cpu");
+if (isnull(cpu)) audit(AUDIT_UNKNOWN_ARCH);
+if ("x86_64" >!< cpu && cpu !~ "^i[3-6]86$") audit(AUDIT_LOCAL_CHECKS_NOT_IMPLEMENTED, "Oracle Linux", cpu);
+
+flag = 0;
+if (rpm_check(release:"EL6", reference:"samba4-4.2.10-15.el6")) flag++;
+if (rpm_check(release:"EL6", reference:"samba4-client-4.2.10-15.el6")) flag++;
+if (rpm_check(release:"EL6", reference:"samba4-common-4.2.10-15.el6")) flag++;
+if (rpm_check(release:"EL6", reference:"samba4-dc-4.2.10-15.el6")) flag++;
+if (rpm_check(release:"EL6", reference:"samba4-dc-libs-4.2.10-15.el6")) flag++;
+if (rpm_check(release:"EL6", reference:"samba4-devel-4.2.10-15.el6")) flag++;
+if (rpm_check(release:"EL6", reference:"samba4-libs-4.2.10-15.el6")) flag++;
+if (rpm_check(release:"EL6", reference:"samba4-pidl-4.2.10-15.el6")) flag++;
+if (rpm_check(release:"EL6", reference:"samba4-python-4.2.10-15.el6")) flag++;
+if (rpm_check(release:"EL6", reference:"samba4-test-4.2.10-15.el6")) flag++;
+if (rpm_check(release:"EL6", reference:"samba4-winbind-4.2.10-15.el6")) flag++;
+if (rpm_check(release:"EL6", reference:"samba4-winbind-clients-4.2.10-15.el6")) flag++;
+if (rpm_check(release:"EL6", reference:"samba4-winbind-krb5-locator-4.2.10-15.el6")) flag++;
+
+
+if (flag)
+{
+  if (report_verbosity > 0) security_note(port:0, extra:rpm_report_get());
+  else security_note(0);
+  exit(0);
+}
+else
+{
+  tested = pkg_tests_get();
+  if (tested) audit(AUDIT_PACKAGE_NOT_AFFECTED, tested);
+  else audit(AUDIT_PACKAGE_NOT_INSTALLED, "samba4 / samba4-client / samba4-common / samba4-dc / samba4-dc-libs / etc");
+}

@@ -1,0 +1,712 @@
+#TRUSTED 71850b26174995484c1eec34d71f2a3c01fe629184197c994c507ff39bbf5ffe941c5a58c0895597a276f1b2d42ed3456248d385835e32012c99ef448be3314b74e8d84f4cf3f706878640a84e422ff358f702572db3b642a4fd6520f58ecebdf926f942610e6a8311ab2e0ab0bd24c9aaff85072afa7f504602866de741870180ea1edb2db5692aad990808aa5680f9acc57bcd0a3c07c77f564f262ea9f1d8ee82258ac86c8ec6f9a44c1e38d9d6110f7adb2f4c23eeaba8ed73dbeba127470466b5c806b6c6f833c3909d6e0c0d7a13292dc04e02838d47b347e361c151afb88d92986013d22fcef18f826ab021e4e1151b1c08989257b06827456e714a25b0b3e8593b722ecd5bf1f7d29ca2c39ef3df52e83539a8ad2fbfed837134a1b889466d6071c68f8aa02e13d6bb8be8c6c05fe62c8ca1b7c03e051ba3ded26a2939d95c7c992801cac62a89b19c1246148df8f135c8d8ca2fa57bfe87ff7e5cb178fcf4056bb726940035d18934530f8df6935cfacbcedf25599679ad0f73b59c66666124ee0ae2a3ea146f4b61d483217723cfc7e42b48800d0be61ae5f0d226165ff11fdbaf7d61d66c61bb320d9aab8783c4b0c73abfeb8b5763b948d15c1ab9e90dd702b2e94705dcc915763929270e8571746f918f00f215c3b12a4737356ffdfeb5a1be2b4e5ae43e2ff4aa1f0dfae7c26c868d066539222ea5691ed144
+#
+# (C) Tenable Network Security, Inc.
+#
+# The descriptive text and package checks in this plugin were
+# extracted from Cisco Security Advisory cisco-sa-20130925-ipv6vfr.
+# The text itself is copyright (C) Cisco
+#
+
+include("compat.inc");
+
+if (description)
+{
+  script_id(70319);
+  script_version("1.13");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2018/11/15");
+
+  script_cve_id("CVE-2013-5474");
+  script_bugtraq_id(62638);
+  script_xref(name:"CISCO-BUG-ID", value:"CSCud64812");
+  script_xref(name:"CISCO-SA", value:"cisco-sa-20130925-ipv6vfr");
+
+  script_name(english:"Cisco IOS Software IPv6 Virtual Fragmentation Reassembly Denial of Service Vulnerability (cisco-sa-20130925-ipv6vfr)");
+  script_summary(english:"Checks the IOS version.");
+
+  script_set_attribute(
+    attribute:"synopsis",
+    value:"The remote device is missing a vendor-supplied security patch."
+  );
+  script_set_attribute(
+    attribute:"description",
+    value:
+"A vulnerability in the implementation of the virtual fragmentation
+reassembly (VFR) feature for IP version 6 (IPv6) in Cisco IOS Software
+could allow an unauthenticated, remote attacker to cause an affected
+device to hang or reload, resulting in a denial of service (DoS)
+condition. The vulnerability is due to a race condition while
+accessing the reassembly queue for IPv6 fragments. An attacker could
+exploit this vulnerability by sending a crafted stream of valid IPv6
+fragments. Repeated exploitation may result in a sustained DoS
+condition. Cisco has released free software updates that address this
+vulnerability. There are no workarounds for this vulnerability."
+  );
+  # https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20130925-ipv6vfr
+  script_set_attribute(
+    attribute:"see_also",
+    value:"http://www.nessus.org/u?330e4285"
+  );
+  script_set_attribute(
+    attribute:"solution",
+    value:
+"Apply the relevant patch referenced in Cisco Security Advisory
+cisco-sa-20130925-ipv6vfr."
+  );
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:N/C:N/I:N/A:C");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"false");
+
+  script_set_attribute(attribute:"plugin_type", value:"combined");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:cisco:ios");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2013/09/25");
+  script_set_attribute(attribute:"patch_publication_date", value:"2013/09/23");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2013/10/07");
+
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_copyright(english:"This script is Copyright (C) 2013-2018 Tenable Network Security, Inc.");
+  script_family(english:"CISCO");
+
+  script_dependencies("cisco_ios_version.nasl");
+  script_require_keys("Host/Cisco/IOS/Version");
+
+  exit(0);
+}
+
+
+
+include("audit.inc");
+include("cisco_func.inc");
+include("cisco_kb_cmd_func.inc");
+
+flag = 0;
+override = 0;
+
+version = get_kb_item_or_exit("Host/Cisco/IOS/Version");
+if ( version == '12.3(11)T' ) flag++;
+if ( version == '12.3(11)T1' ) flag++;
+if ( version == '12.3(11)T10' ) flag++;
+if ( version == '12.3(11)T11' ) flag++;
+if ( version == '12.3(11)T12' ) flag++;
+if ( version == '12.3(11)T2' ) flag++;
+if ( version == '12.3(11)T2a' ) flag++;
+if ( version == '12.3(11)T3' ) flag++;
+if ( version == '12.3(11)T4' ) flag++;
+if ( version == '12.3(11)T5' ) flag++;
+if ( version == '12.3(11)T6' ) flag++;
+if ( version == '12.3(11)T7' ) flag++;
+if ( version == '12.3(11)T8' ) flag++;
+if ( version == '12.3(11)T9' ) flag++;
+if ( version == '12.3(11)XL' ) flag++;
+if ( version == '12.3(11)XL1' ) flag++;
+if ( version == '12.3(11)XL2' ) flag++;
+if ( version == '12.3(11)XL3' ) flag++;
+if ( version == '12.3(11)YK' ) flag++;
+if ( version == '12.3(11)YK1' ) flag++;
+if ( version == '12.3(11)YK2' ) flag++;
+if ( version == '12.3(11)YK3' ) flag++;
+if ( version == '12.3(11)YN' ) flag++;
+if ( version == '12.3(11)YS' ) flag++;
+if ( version == '12.3(11)YS1' ) flag++;
+if ( version == '12.3(11)YS2' ) flag++;
+if ( version == '12.3(11)YZ' ) flag++;
+if ( version == '12.3(11)YZ1' ) flag++;
+if ( version == '12.3(11)YZ2' ) flag++;
+if ( version == '12.3(11)ZB' ) flag++;
+if ( version == '12.3(11)ZB1' ) flag++;
+if ( version == '12.3(11)ZB2' ) flag++;
+if ( version == '12.3(14)T' ) flag++;
+if ( version == '12.3(14)T1' ) flag++;
+if ( version == '12.3(14)T2' ) flag++;
+if ( version == '12.3(14)T3' ) flag++;
+if ( version == '12.3(14)T4' ) flag++;
+if ( version == '12.3(14)T5' ) flag++;
+if ( version == '12.3(14)T6' ) flag++;
+if ( version == '12.3(14)T7' ) flag++;
+if ( version == '12.3(14)YM1' ) flag++;
+if ( version == '12.3(14)YM10' ) flag++;
+if ( version == '12.3(14)YM11' ) flag++;
+if ( version == '12.3(14)YM12' ) flag++;
+if ( version == '12.3(14)YM13' ) flag++;
+if ( version == '12.3(14)YM2' ) flag++;
+if ( version == '12.3(14)YM3' ) flag++;
+if ( version == '12.3(14)YM4' ) flag++;
+if ( version == '12.3(14)YM5' ) flag++;
+if ( version == '12.3(14)YM6' ) flag++;
+if ( version == '12.3(14)YM7' ) flag++;
+if ( version == '12.3(14)YM8' ) flag++;
+if ( version == '12.3(14)YM9' ) flag++;
+if ( version == '12.3(14)YT' ) flag++;
+if ( version == '12.3(14)YT1' ) flag++;
+if ( version == '12.3(4)XG' ) flag++;
+if ( version == '12.3(4)XG1' ) flag++;
+if ( version == '12.3(4)XG2' ) flag++;
+if ( version == '12.3(4)XG3' ) flag++;
+if ( version == '12.3(4)XG4' ) flag++;
+if ( version == '12.3(4)XG5' ) flag++;
+if ( version == '12.3(4)XH' ) flag++;
+if ( version == '12.3(4)XH1' ) flag++;
+if ( version == '12.3(4)XK' ) flag++;
+if ( version == '12.3(4)XK1' ) flag++;
+if ( version == '12.3(4)XK2' ) flag++;
+if ( version == '12.3(4)XK3' ) flag++;
+if ( version == '12.3(4)XK4' ) flag++;
+if ( version == '12.3(4)XQ' ) flag++;
+if ( version == '12.3(4)XQ1' ) flag++;
+if ( version == '12.3(7)T' ) flag++;
+if ( version == '12.3(7)T1' ) flag++;
+if ( version == '12.3(7)T10' ) flag++;
+if ( version == '12.3(7)T11' ) flag++;
+if ( version == '12.3(7)T12' ) flag++;
+if ( version == '12.3(7)T2' ) flag++;
+if ( version == '12.3(7)T3' ) flag++;
+if ( version == '12.3(7)T4' ) flag++;
+if ( version == '12.3(7)T6' ) flag++;
+if ( version == '12.3(7)T7' ) flag++;
+if ( version == '12.3(7)T8' ) flag++;
+if ( version == '12.3(7)T9' ) flag++;
+if ( version == '12.3(7)XL' ) flag++;
+if ( version == '12.3(7)XR' ) flag++;
+if ( version == '12.3(7)XR1' ) flag++;
+if ( version == '12.3(7)XR2' ) flag++;
+if ( version == '12.3(7)XR3' ) flag++;
+if ( version == '12.3(7)XR4' ) flag++;
+if ( version == '12.3(7)XR5' ) flag++;
+if ( version == '12.3(7)XR6' ) flag++;
+if ( version == '12.3(7)XR7' ) flag++;
+if ( version == '12.3(7)XS' ) flag++;
+if ( version == '12.3(7)XS1' ) flag++;
+if ( version == '12.3(7)XS2' ) flag++;
+if ( version == '12.3(8)T' ) flag++;
+if ( version == '12.3(8)T1' ) flag++;
+if ( version == '12.3(8)T10' ) flag++;
+if ( version == '12.3(8)T11' ) flag++;
+if ( version == '12.3(8)T2' ) flag++;
+if ( version == '12.3(8)T3' ) flag++;
+if ( version == '12.3(8)T4' ) flag++;
+if ( version == '12.3(8)T5' ) flag++;
+if ( version == '12.3(8)T6' ) flag++;
+if ( version == '12.3(8)T7' ) flag++;
+if ( version == '12.3(8)T8' ) flag++;
+if ( version == '12.3(8)T9' ) flag++;
+if ( version == '12.3(8)XX' ) flag++;
+if ( version == '12.3(8)XX1' ) flag++;
+if ( version == '12.3(8)XX2e' ) flag++;
+if ( version == '12.3(8)YA' ) flag++;
+if ( version == '12.3(8)YA1' ) flag++;
+if ( version == '12.3(8)YC' ) flag++;
+if ( version == '12.3(8)YC1' ) flag++;
+if ( version == '12.3(8)YC2' ) flag++;
+if ( version == '12.3(8)YC3' ) flag++;
+if ( version == '12.3(8)YD' ) flag++;
+if ( version == '12.3(8)YD1' ) flag++;
+if ( version == '12.3(8)YG' ) flag++;
+if ( version == '12.3(8)YG1' ) flag++;
+if ( version == '12.3(8)YG2' ) flag++;
+if ( version == '12.3(8)YG3' ) flag++;
+if ( version == '12.3(8)YG4' ) flag++;
+if ( version == '12.3(8)YG5' ) flag++;
+if ( version == '12.3(8)YG6' ) flag++;
+if ( version == '12.3(8)YG7' ) flag++;
+if ( version == '12.3(8)YH' ) flag++;
+if ( version == '12.3(8)YI' ) flag++;
+if ( version == '12.3(8)YI1' ) flag++;
+if ( version == '12.3(8)YI2' ) flag++;
+if ( version == '12.3(8)YI3' ) flag++;
+if ( version == '12.3(8)ZA' ) flag++;
+if ( version == '12.3(8)ZA1' ) flag++;
+if ( version == '12.4(1)' ) flag++;
+if ( version == '12.4(10)' ) flag++;
+if ( version == '12.4(10a)' ) flag++;
+if ( version == '12.4(10b)' ) flag++;
+if ( version == '12.4(10c)' ) flag++;
+if ( version == '12.4(11)T' ) flag++;
+if ( version == '12.4(11)T1' ) flag++;
+if ( version == '12.4(11)T2' ) flag++;
+if ( version == '12.4(11)T3' ) flag++;
+if ( version == '12.4(11)T4' ) flag++;
+if ( version == '12.4(11)XJ' ) flag++;
+if ( version == '12.4(11)XJ1' ) flag++;
+if ( version == '12.4(11)XJ2' ) flag++;
+if ( version == '12.4(11)XJ3' ) flag++;
+if ( version == '12.4(11)XJ4' ) flag++;
+if ( version == '12.4(11)XJ5' ) flag++;
+if ( version == '12.4(11)XJ6' ) flag++;
+if ( version == '12.4(11)XV' ) flag++;
+if ( version == '12.4(11)XV1' ) flag++;
+if ( version == '12.4(11)XW' ) flag++;
+if ( version == '12.4(11)XW1' ) flag++;
+if ( version == '12.4(11)XW10' ) flag++;
+if ( version == '12.4(11)XW2' ) flag++;
+if ( version == '12.4(11)XW3' ) flag++;
+if ( version == '12.4(11)XW4' ) flag++;
+if ( version == '12.4(11)XW5' ) flag++;
+if ( version == '12.4(11)XW6' ) flag++;
+if ( version == '12.4(11)XW7' ) flag++;
+if ( version == '12.4(11)XW8' ) flag++;
+if ( version == '12.4(11)XW9' ) flag++;
+if ( version == '12.4(12)' ) flag++;
+if ( version == '12.4(12a)' ) flag++;
+if ( version == '12.4(12b)' ) flag++;
+if ( version == '12.4(12c)' ) flag++;
+if ( version == '12.4(13)' ) flag++;
+if ( version == '12.4(13a)' ) flag++;
+if ( version == '12.4(13b)' ) flag++;
+if ( version == '12.4(13c)' ) flag++;
+if ( version == '12.4(13d)' ) flag++;
+if ( version == '12.4(13e)' ) flag++;
+if ( version == '12.4(13f)' ) flag++;
+if ( version == '12.4(14)XK' ) flag++;
+if ( version == '12.4(15)T' ) flag++;
+if ( version == '12.4(15)T1' ) flag++;
+if ( version == '12.4(15)T10' ) flag++;
+if ( version == '12.4(15)T11' ) flag++;
+if ( version == '12.4(15)T12' ) flag++;
+if ( version == '12.4(15)T13' ) flag++;
+if ( version == '12.4(15)T13b' ) flag++;
+if ( version == '12.4(15)T14' ) flag++;
+if ( version == '12.4(15)T15' ) flag++;
+if ( version == '12.4(15)T16' ) flag++;
+if ( version == '12.4(15)T17' ) flag++;
+if ( version == '12.4(15)T2' ) flag++;
+if ( version == '12.4(15)T3' ) flag++;
+if ( version == '12.4(15)T4' ) flag++;
+if ( version == '12.4(15)T5' ) flag++;
+if ( version == '12.4(15)T6' ) flag++;
+if ( version == '12.4(15)T6a' ) flag++;
+if ( version == '12.4(15)T7' ) flag++;
+if ( version == '12.4(15)T8' ) flag++;
+if ( version == '12.4(15)T9' ) flag++;
+if ( version == '12.4(15)XF' ) flag++;
+if ( version == '12.4(15)XQ' ) flag++;
+if ( version == '12.4(15)XQ1' ) flag++;
+if ( version == '12.4(15)XQ2' ) flag++;
+if ( version == '12.4(15)XQ2a' ) flag++;
+if ( version == '12.4(15)XQ2b' ) flag++;
+if ( version == '12.4(15)XQ2c' ) flag++;
+if ( version == '12.4(15)XQ2d' ) flag++;
+if ( version == '12.4(15)XQ3' ) flag++;
+if ( version == '12.4(15)XQ4' ) flag++;
+if ( version == '12.4(15)XQ5' ) flag++;
+if ( version == '12.4(15)XQ6' ) flag++;
+if ( version == '12.4(15)XQ7' ) flag++;
+if ( version == '12.4(15)XQ8' ) flag++;
+if ( version == '12.4(15)XR' ) flag++;
+if ( version == '12.4(15)XR1' ) flag++;
+if ( version == '12.4(15)XR10' ) flag++;
+if ( version == '12.4(15)XR2' ) flag++;
+if ( version == '12.4(15)XR3' ) flag++;
+if ( version == '12.4(15)XR4' ) flag++;
+if ( version == '12.4(15)XR5' ) flag++;
+if ( version == '12.4(15)XR6' ) flag++;
+if ( version == '12.4(15)XR7' ) flag++;
+if ( version == '12.4(15)XR8' ) flag++;
+if ( version == '12.4(15)XR9' ) flag++;
+if ( version == '12.4(15)XY' ) flag++;
+if ( version == '12.4(15)XY1' ) flag++;
+if ( version == '12.4(15)XY2' ) flag++;
+if ( version == '12.4(15)XY3' ) flag++;
+if ( version == '12.4(15)XY4' ) flag++;
+if ( version == '12.4(15)XY5' ) flag++;
+if ( version == '12.4(15)XZ' ) flag++;
+if ( version == '12.4(15)XZ1' ) flag++;
+if ( version == '12.4(15)XZ2' ) flag++;
+if ( version == '12.4(16)' ) flag++;
+if ( version == '12.4(16)MR1' ) flag++;
+if ( version == '12.4(16)MR2' ) flag++;
+if ( version == '12.4(16a)' ) flag++;
+if ( version == '12.4(16b)' ) flag++;
+if ( version == '12.4(17)' ) flag++;
+if ( version == '12.4(17a)' ) flag++;
+if ( version == '12.4(17b)' ) flag++;
+if ( version == '12.4(18)' ) flag++;
+if ( version == '12.4(18a)' ) flag++;
+if ( version == '12.4(18b)' ) flag++;
+if ( version == '12.4(18c)' ) flag++;
+if ( version == '12.4(18d)' ) flag++;
+if ( version == '12.4(18e)' ) flag++;
+if ( version == '12.4(19)' ) flag++;
+if ( version == '12.4(19)MR' ) flag++;
+if ( version == '12.4(19)MR1' ) flag++;
+if ( version == '12.4(19)MR2' ) flag++;
+if ( version == '12.4(19)MR3' ) flag++;
+if ( version == '12.4(1a)' ) flag++;
+if ( version == '12.4(1b)' ) flag++;
+if ( version == '12.4(1c)' ) flag++;
+if ( version == '12.4(2)T' ) flag++;
+if ( version == '12.4(2)T1' ) flag++;
+if ( version == '12.4(2)T2' ) flag++;
+if ( version == '12.4(2)T3' ) flag++;
+if ( version == '12.4(2)T4' ) flag++;
+if ( version == '12.4(2)T5' ) flag++;
+if ( version == '12.4(2)T6' ) flag++;
+if ( version == '12.4(2)XA' ) flag++;
+if ( version == '12.4(2)XA1' ) flag++;
+if ( version == '12.4(2)XA2' ) flag++;
+if ( version == '12.4(20)MR' ) flag++;
+if ( version == '12.4(20)MR2' ) flag++;
+if ( version == '12.4(20)MRA' ) flag++;
+if ( version == '12.4(20)MRA1' ) flag++;
+if ( version == '12.4(20)MRB' ) flag++;
+if ( version == '12.4(20)MRB1' ) flag++;
+if ( version == '12.4(20)T' ) flag++;
+if ( version == '12.4(20)T1' ) flag++;
+if ( version == '12.4(20)T2' ) flag++;
+if ( version == '12.4(20)T3' ) flag++;
+if ( version == '12.4(20)T4' ) flag++;
+if ( version == '12.4(20)T5' ) flag++;
+if ( version == '12.4(20)T5a' ) flag++;
+if ( version == '12.4(20)T6' ) flag++;
+if ( version == '12.4(20)YA' ) flag++;
+if ( version == '12.4(20)YA1' ) flag++;
+if ( version == '12.4(20)YA2' ) flag++;
+if ( version == '12.4(20)YA3' ) flag++;
+if ( version == '12.4(21)' ) flag++;
+if ( version == '12.4(21a)' ) flag++;
+if ( version == '12.4(21a)M1' ) flag++;
+if ( version == '12.4(22)GC1' ) flag++;
+if ( version == '12.4(22)GC1a' ) flag++;
+if ( version == '12.4(22)T' ) flag++;
+if ( version == '12.4(22)T1' ) flag++;
+if ( version == '12.4(22)T2' ) flag++;
+if ( version == '12.4(22)T3' ) flag++;
+if ( version == '12.4(22)T4' ) flag++;
+if ( version == '12.4(22)T5' ) flag++;
+if ( version == '12.4(22)XR' ) flag++;
+if ( version == '12.4(22)XR1' ) flag++;
+if ( version == '12.4(22)XR10' ) flag++;
+if ( version == '12.4(22)XR11' ) flag++;
+if ( version == '12.4(22)XR12' ) flag++;
+if ( version == '12.4(22)XR2' ) flag++;
+if ( version == '12.4(22)XR3' ) flag++;
+if ( version == '12.4(22)XR4' ) flag++;
+if ( version == '12.4(22)XR5' ) flag++;
+if ( version == '12.4(22)XR6' ) flag++;
+if ( version == '12.4(22)XR7' ) flag++;
+if ( version == '12.4(22)XR8' ) flag++;
+if ( version == '12.4(22)XR9' ) flag++;
+if ( version == '12.4(22)YB' ) flag++;
+if ( version == '12.4(22)YB1' ) flag++;
+if ( version == '12.4(22)YB4' ) flag++;
+if ( version == '12.4(22)YB5' ) flag++;
+if ( version == '12.4(22)YB6' ) flag++;
+if ( version == '12.4(22)YB7' ) flag++;
+if ( version == '12.4(22)YB8' ) flag++;
+if ( version == '12.4(22)YD' ) flag++;
+if ( version == '12.4(22)YD1' ) flag++;
+if ( version == '12.4(22)YD2' ) flag++;
+if ( version == '12.4(22)YD3' ) flag++;
+if ( version == '12.4(22)YD4' ) flag++;
+if ( version == '12.4(22)YE' ) flag++;
+if ( version == '12.4(22)YE1' ) flag++;
+if ( version == '12.4(22)YE2' ) flag++;
+if ( version == '12.4(22)YE3' ) flag++;
+if ( version == '12.4(22)YE4' ) flag++;
+if ( version == '12.4(22)YE5' ) flag++;
+if ( version == '12.4(22)YE6' ) flag++;
+if ( version == '12.4(23)' ) flag++;
+if ( version == '12.4(23a)' ) flag++;
+if ( version == '12.4(23b)' ) flag++;
+if ( version == '12.4(23b)M1' ) flag++;
+if ( version == '12.4(23c)' ) flag++;
+if ( version == '12.4(23d)' ) flag++;
+if ( version == '12.4(23e)' ) flag++;
+if ( version == '12.4(24)GC1' ) flag++;
+if ( version == '12.4(24)GC3' ) flag++;
+if ( version == '12.4(24)GC3a' ) flag++;
+if ( version == '12.4(24)GC4' ) flag++;
+if ( version == '12.4(24)GC5' ) flag++;
+if ( version == '12.4(24)MDA' ) flag++;
+if ( version == '12.4(24)MDA1' ) flag++;
+if ( version == '12.4(24)MDA10' ) flag++;
+if ( version == '12.4(24)MDA11' ) flag++;
+if ( version == '12.4(24)MDA12' ) flag++;
+if ( version == '12.4(24)MDA13' ) flag++;
+if ( version == '12.4(24)MDA2' ) flag++;
+if ( version == '12.4(24)MDA3' ) flag++;
+if ( version == '12.4(24)MDA4' ) flag++;
+if ( version == '12.4(24)MDA5' ) flag++;
+if ( version == '12.4(24)MDA6' ) flag++;
+if ( version == '12.4(24)MDA7' ) flag++;
+if ( version == '12.4(24)MDA8' ) flag++;
+if ( version == '12.4(24)MDA9' ) flag++;
+if ( version == '12.4(24)MDB' ) flag++;
+if ( version == '12.4(24)MDB1' ) flag++;
+if ( version == '12.4(24)MDB10' ) flag++;
+if ( version == '12.4(24)MDB11' ) flag++;
+if ( version == '12.4(24)MDB12' ) flag++;
+if ( version == '12.4(24)MDB13' ) flag++;
+if ( version == '12.4(24)MDB14' ) flag++;
+if ( version == '12.4(24)MDB3' ) flag++;
+if ( version == '12.4(24)MDB4' ) flag++;
+if ( version == '12.4(24)MDB5' ) flag++;
+if ( version == '12.4(24)MDB5a' ) flag++;
+if ( version == '12.4(24)MDB6' ) flag++;
+if ( version == '12.4(24)MDB7' ) flag++;
+if ( version == '12.4(24)MDB8' ) flag++;
+if ( version == '12.4(24)MDB9' ) flag++;
+if ( version == '12.4(24)T' ) flag++;
+if ( version == '12.4(24)T1' ) flag++;
+if ( version == '12.4(24)T2' ) flag++;
+if ( version == '12.4(24)T3' ) flag++;
+if ( version == '12.4(24)T31f' ) flag++;
+if ( version == '12.4(24)T32f' ) flag++;
+if ( version == '12.4(24)T33f' ) flag++;
+if ( version == '12.4(24)T34f' ) flag++;
+if ( version == '12.4(24)T35c' ) flag++;
+if ( version == '12.4(24)T35f' ) flag++;
+if ( version == '12.4(24)T3c' ) flag++;
+if ( version == '12.4(24)T3e' ) flag++;
+if ( version == '12.4(24)T3f' ) flag++;
+if ( version == '12.4(24)T3g' ) flag++;
+if ( version == '12.4(24)T4' ) flag++;
+if ( version == '12.4(24)T4a' ) flag++;
+if ( version == '12.4(24)T4b' ) flag++;
+if ( version == '12.4(24)T4c' ) flag++;
+if ( version == '12.4(24)T4d' ) flag++;
+if ( version == '12.4(24)T4e' ) flag++;
+if ( version == '12.4(24)T4f' ) flag++;
+if ( version == '12.4(24)T4g' ) flag++;
+if ( version == '12.4(24)T4h' ) flag++;
+if ( version == '12.4(24)T4i' ) flag++;
+if ( version == '12.4(24)T4j' ) flag++;
+if ( version == '12.4(24)T4k' ) flag++;
+if ( version == '12.4(24)T4l' ) flag++;
+if ( version == '12.4(24)T4m' ) flag++;
+if ( version == '12.4(24)T4n' ) flag++;
+if ( version == '12.4(24)T5' ) flag++;
+if ( version == '12.4(24)T6' ) flag++;
+if ( version == '12.4(24)T7' ) flag++;
+if ( version == '12.4(24)T8' ) flag++;
+if ( version == '12.4(24)T9' ) flag++;
+if ( version == '12.4(24)YE' ) flag++;
+if ( version == '12.4(24)YE1' ) flag++;
+if ( version == '12.4(24)YE2' ) flag++;
+if ( version == '12.4(24)YE3' ) flag++;
+if ( version == '12.4(24)YE3a' ) flag++;
+if ( version == '12.4(24)YE3b' ) flag++;
+if ( version == '12.4(24)YE3c' ) flag++;
+if ( version == '12.4(24)YE3d' ) flag++;
+if ( version == '12.4(24)YE3e' ) flag++;
+if ( version == '12.4(24)YE4' ) flag++;
+if ( version == '12.4(24)YE5' ) flag++;
+if ( version == '12.4(24)YE6' ) flag++;
+if ( version == '12.4(24)YE7' ) flag++;
+if ( version == '12.4(24)YS' ) flag++;
+if ( version == '12.4(24)YS1' ) flag++;
+if ( version == '12.4(25)' ) flag++;
+if ( version == '12.4(25a)' ) flag++;
+if ( version == '12.4(25b)' ) flag++;
+if ( version == '12.4(25c)' ) flag++;
+if ( version == '12.4(25d)' ) flag++;
+if ( version == '12.4(25e)' ) flag++;
+if ( version == '12.4(25f)' ) flag++;
+if ( version == '12.4(25g)' ) flag++;
+if ( version == '12.4(3)' ) flag++;
+if ( version == '12.4(3a)' ) flag++;
+if ( version == '12.4(3b)' ) flag++;
+if ( version == '12.4(3c)' ) flag++;
+if ( version == '12.4(3d)' ) flag++;
+if ( version == '12.4(3e)' ) flag++;
+if ( version == '12.4(3f)' ) flag++;
+if ( version == '12.4(3g)' ) flag++;
+if ( version == '12.4(3h)' ) flag++;
+if ( version == '12.4(3i)' ) flag++;
+if ( version == '12.4(3j)' ) flag++;
+if ( version == '12.4(4)T' ) flag++;
+if ( version == '12.4(4)T1' ) flag++;
+if ( version == '12.4(4)T2' ) flag++;
+if ( version == '12.4(4)T3' ) flag++;
+if ( version == '12.4(4)T4' ) flag++;
+if ( version == '12.4(4)T5' ) flag++;
+if ( version == '12.4(4)T6' ) flag++;
+if ( version == '12.4(4)T7' ) flag++;
+if ( version == '12.4(4)T8' ) flag++;
+if ( version == '12.4(4)XC' ) flag++;
+if ( version == '12.4(4)XC1' ) flag++;
+if ( version == '12.4(4)XC2' ) flag++;
+if ( version == '12.4(4)XC3' ) flag++;
+if ( version == '12.4(4)XC4' ) flag++;
+if ( version == '12.4(4)XC5' ) flag++;
+if ( version == '12.4(4)XC6' ) flag++;
+if ( version == '12.4(4)XC7' ) flag++;
+if ( version == '12.4(4)XD' ) flag++;
+if ( version == '12.4(4)XD1' ) flag++;
+if ( version == '12.4(4)XD10' ) flag++;
+if ( version == '12.4(4)XD11' ) flag++;
+if ( version == '12.4(4)XD12' ) flag++;
+if ( version == '12.4(4)XD2' ) flag++;
+if ( version == '12.4(4)XD3' ) flag++;
+if ( version == '12.4(4)XD4' ) flag++;
+if ( version == '12.4(4)XD5' ) flag++;
+if ( version == '12.4(4)XD6' ) flag++;
+if ( version == '12.4(4)XD7' ) flag++;
+if ( version == '12.4(4)XD8' ) flag++;
+if ( version == '12.4(4)XD9' ) flag++;
+if ( version == '12.4(5)' ) flag++;
+if ( version == '12.4(5a)' ) flag++;
+if ( version == '12.4(5a)M0' ) flag++;
+if ( version == '12.4(5b)' ) flag++;
+if ( version == '12.4(5c)' ) flag++;
+if ( version == '12.4(6)T' ) flag++;
+if ( version == '12.4(6)T1' ) flag++;
+if ( version == '12.4(6)T10' ) flag++;
+if ( version == '12.4(6)T11' ) flag++;
+if ( version == '12.4(6)T12' ) flag++;
+if ( version == '12.4(6)T2' ) flag++;
+if ( version == '12.4(6)T3' ) flag++;
+if ( version == '12.4(6)T4' ) flag++;
+if ( version == '12.4(6)T5' ) flag++;
+if ( version == '12.4(6)T5a' ) flag++;
+if ( version == '12.4(6)T5b' ) flag++;
+if ( version == '12.4(6)T5c' ) flag++;
+if ( version == '12.4(6)T5e' ) flag++;
+if ( version == '12.4(6)T5f' ) flag++;
+if ( version == '12.4(6)T6' ) flag++;
+if ( version == '12.4(6)T7' ) flag++;
+if ( version == '12.4(6)T8' ) flag++;
+if ( version == '12.4(6)T9' ) flag++;
+if ( version == '12.4(6)XE' ) flag++;
+if ( version == '12.4(6)XE1' ) flag++;
+if ( version == '12.4(6)XE2' ) flag++;
+if ( version == '12.4(6)XE3' ) flag++;
+if ( version == '12.4(6)XT' ) flag++;
+if ( version == '12.4(6)XT1' ) flag++;
+if ( version == '12.4(6)XT2' ) flag++;
+if ( version == '12.4(7)' ) flag++;
+if ( version == '12.4(7a)' ) flag++;
+if ( version == '12.4(7b)' ) flag++;
+if ( version == '12.4(7c)' ) flag++;
+if ( version == '12.4(7d)' ) flag++;
+if ( version == '12.4(7e)' ) flag++;
+if ( version == '12.4(7f)' ) flag++;
+if ( version == '12.4(7g)' ) flag++;
+if ( version == '12.4(7h)' ) flag++;
+if ( version == '12.4(8)' ) flag++;
+if ( version == '12.4(8a)' ) flag++;
+if ( version == '12.4(8b)' ) flag++;
+if ( version == '12.4(8c)' ) flag++;
+if ( version == '12.4(8d)' ) flag++;
+if ( version == '12.4(9)T' ) flag++;
+if ( version == '12.4(9)T0a' ) flag++;
+if ( version == '12.4(9)T1' ) flag++;
+if ( version == '12.4(9)T2' ) flag++;
+if ( version == '12.4(9)T3' ) flag++;
+if ( version == '12.4(9)T4' ) flag++;
+if ( version == '12.4(9)T5' ) flag++;
+if ( version == '12.4(9)T6' ) flag++;
+if ( version == '12.4(9)T7' ) flag++;
+if ( version == '15.0(1)M' ) flag++;
+if ( version == '15.0(1)M1' ) flag++;
+if ( version == '15.0(1)M10' ) flag++;
+if ( version == '15.0(1)M2' ) flag++;
+if ( version == '15.0(1)M3' ) flag++;
+if ( version == '15.0(1)M4' ) flag++;
+if ( version == '15.0(1)M5' ) flag++;
+if ( version == '15.0(1)M6' ) flag++;
+if ( version == '15.0(1)M6a' ) flag++;
+if ( version == '15.0(1)M7' ) flag++;
+if ( version == '15.0(1)M8' ) flag++;
+if ( version == '15.0(1)M9' ) flag++;
+if ( version == '15.0(1)XA' ) flag++;
+if ( version == '15.0(1)XA1' ) flag++;
+if ( version == '15.0(1)XA2' ) flag++;
+if ( version == '15.0(1)XA3' ) flag++;
+if ( version == '15.0(1)XA4' ) flag++;
+if ( version == '15.0(1)XA5' ) flag++;
+if ( version == '15.1(1)T' ) flag++;
+if ( version == '15.1(1)T1' ) flag++;
+if ( version == '15.1(1)T2' ) flag++;
+if ( version == '15.1(1)T3' ) flag++;
+if ( version == '15.1(1)T4' ) flag++;
+if ( version == '15.1(1)T5' ) flag++;
+if ( version == '15.1(1)XB' ) flag++;
+if ( version == '15.1(1)XB1' ) flag++;
+if ( version == '15.1(1)XB2' ) flag++;
+if ( version == '15.1(1)XB3' ) flag++;
+if ( version == '15.1(2)GC' ) flag++;
+if ( version == '15.1(2)GC1' ) flag++;
+if ( version == '15.1(2)GC2' ) flag++;
+if ( version == '15.1(2)T' ) flag++;
+if ( version == '15.1(2)T0a' ) flag++;
+if ( version == '15.1(2)T1' ) flag++;
+if ( version == '15.1(2)T2' ) flag++;
+if ( version == '15.1(2)T2a' ) flag++;
+if ( version == '15.1(2)T3' ) flag++;
+if ( version == '15.1(2)T4' ) flag++;
+if ( version == '15.1(2)T5' ) flag++;
+if ( version == '15.1(3)T' ) flag++;
+if ( version == '15.1(3)T1' ) flag++;
+if ( version == '15.1(3)T2' ) flag++;
+if ( version == '15.1(3)T3' ) flag++;
+if ( version == '15.1(3)T4' ) flag++;
+if ( version == '15.1(4)GC' ) flag++;
+if ( version == '15.1(4)GC1' ) flag++;
+if ( version == '15.1(4)M' ) flag++;
+if ( version == '15.1(4)M0a' ) flag++;
+if ( version == '15.1(4)M0b' ) flag++;
+if ( version == '15.1(4)M1' ) flag++;
+if ( version == '15.1(4)M2' ) flag++;
+if ( version == '15.1(4)M3' ) flag++;
+if ( version == '15.1(4)M3a' ) flag++;
+if ( version == '15.1(4)M4' ) flag++;
+if ( version == '15.1(4)M5' ) flag++;
+if ( version == '15.1(4)M6' ) flag++;
+if ( version == '15.1(4)XB4' ) flag++;
+if ( version == '15.1(4)XB5' ) flag++;
+if ( version == '15.1(4)XB5a' ) flag++;
+if ( version == '15.1(4)XB6' ) flag++;
+if ( version == '15.1(4)XB7' ) flag++;
+if ( version == '15.1(4)XB8a' ) flag++;
+if ( version == '15.2(1)GC' ) flag++;
+if ( version == '15.2(1)GC1' ) flag++;
+if ( version == '15.2(1)GC2' ) flag++;
+if ( version == '15.2(1)T' ) flag++;
+if ( version == '15.2(1)T1' ) flag++;
+if ( version == '15.2(1)T2' ) flag++;
+if ( version == '15.2(1)T3' ) flag++;
+if ( version == '15.2(1)T3a' ) flag++;
+if ( version == '15.2(1)T4' ) flag++;
+if ( version == '15.2(2)GC' ) flag++;
+if ( version == '15.2(2)T' ) flag++;
+if ( version == '15.2(2)T1' ) flag++;
+if ( version == '15.2(2)T2' ) flag++;
+if ( version == '15.2(2)T3' ) flag++;
+if ( version == '15.2(3)GC' ) flag++;
+if ( version == '15.2(3)GCA' ) flag++;
+if ( version == '15.2(3)T' ) flag++;
+if ( version == '15.2(3)T1' ) flag++;
+if ( version == '15.2(3)T2' ) flag++;
+if ( version == '15.2(3)XA' ) flag++;
+if ( version == '15.2(4)M' ) flag++;
+if ( version == '15.2(4)M1' ) flag++;
+if ( version == '15.2(4)M2' ) flag++;
+if ( version == '15.2(4)M3' ) flag++;
+if ( version == '15.2(4)XB10' ) flag++;
+if ( version == '15.3(1)T' ) flag++;
+
+if (get_kb_item("Host/local_checks_enabled"))
+{
+
+  if (flag)
+  {
+    flag = 0;
+    buf = cisco_command_kb_item("Host/Cisco/Config/show_ipv6_virtual-reassembly", "show ipv6 virtual-reassembly");
+    if (check_cisco_result(buf))
+    {
+      if (preg(pattern:"ENABLED\s*[\[\(]in[\]\)]\r\n(.*\r\n){1,5} *[Dd]rop fragments: OFF", multiline:TRUE, string:buf)) { flag = 1; }
+    } else if (cisco_needs_enable(buf)) { flag = 1; override = 1; }
+  }
+}
+
+
+
+if (flag)
+{
+  security_hole(port:0, extra:cisco_caveat(override));
+  exit(0);
+}
+else audit(AUDIT_HOST_NOT, "affected");

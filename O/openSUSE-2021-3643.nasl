@@ -1,0 +1,184 @@
+#%NASL_MIN_LEVEL 70300
+##
+# (C) Tenable Network Security, Inc.
+#
+# The package checks in this plugin were extracted from
+# openSUSE Security Update openSUSE-SU-2021:3643-1. The text itself
+# is copyright (C) SUSE.
+##
+
+include('deprecated_nasl_level.inc');
+include('compat.inc');
+
+if (description)
+{
+  script_id(155008);
+  script_version("1.2");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2021/11/10");
+
+  script_cve_id("CVE-2021-20294");
+
+  script_name(english:"openSUSE 15 Security Update : binutils (openSUSE-SU-2021:3643-1)");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote SUSE host is missing a security update.");
+  script_set_attribute(attribute:"description", value:
+"The remote SUSE Linux SUSE15 host has packages installed that are affected by a vulnerability as referenced in the
+openSUSE-SU-2021:3643-1 advisory.
+
+  - A flaw was found in binutils readelf 2.35 program. An attacker who is able to convince a victim using
+    readelf to read a crafted file could trigger a stack buffer overflow, out-of-bounds write of arbitrary
+    data supplied by the attacker. The highest impact of this flaw is to confidentiality, integrity, and
+    availability. (CVE-2021-20294)
+
+Note that Nessus has not tested for this issue but has instead relied only on the application's self-reported version
+number.");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.suse.com/1183909");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.suse.com/1184519");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.suse.com/1188941");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.suse.com/1191473");
+  script_set_attribute(attribute:"see_also", value:"https://bugzilla.suse.com/1192267");
+  # https://lists.opensuse.org/archives/list/security-announce@lists.opensuse.org/thread/O6GNK27D6NPRSWPQWFJADKDTOHPOGY6C/
+  script_set_attribute(attribute:"see_also", value:"http://www.nessus.org/u?6141429f");
+  script_set_attribute(attribute:"see_also", value:"https://www.suse.com/security/cve/CVE-2021-20294");
+  script_set_attribute(attribute:"solution", value:
+"Update the affected packages.");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:M/Au:N/C:P/I:P/A:P");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2021-20294");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"false");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2021/04/29");
+  script_set_attribute(attribute:"patch_publication_date", value:"2021/11/09");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2021/11/10");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:binutils-devel");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:binutils-devel-32bit");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:binutils-gold");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-aarch64-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-arm-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-avr-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-epiphany-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-hppa-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-hppa64-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-i386-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-ia64-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-m68k-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-mips-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-ppc-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-ppc64-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-ppc64le-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-riscv64-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-rx-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-s390-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-s390x-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-sparc-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-sparc64-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-spu-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:cross-x86_64-binutils");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:libctf-nobfd0");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:novell:opensuse:libctf0");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:novell:opensuse:15.3");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"SuSE Local Security Checks");
+
+  script_copyright(english:"This script is Copyright (C) 2021 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("ssh_get_info.nasl");
+  script_require_keys("Host/local_checks_enabled", "Host/cpu", "Host/SuSE/release", "Host/SuSE/rpm-list");
+
+  exit(0);
+}
+
+
+include('audit.inc');
+include('global_settings.inc');
+include('misc_func.inc');
+include('rpm.inc');
+
+if (!get_kb_item('Host/local_checks_enabled')) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+var release = get_kb_item('Host/SuSE/release');
+if (isnull(release) || release =~ "^(SLED|SLES)") audit(AUDIT_OS_NOT, 'openSUSE');
+var os_ver = pregmatch(pattern: "^SUSE([\d.]+)", string:release);
+if (isnull(os_ver)) audit(AUDIT_UNKNOWN_APP_VER, 'openSUSE');
+os_ver = os_ver[1];
+if (release !~ "^(SUSE15\.3)$") audit(AUDIT_OS_RELEASE_NOT, 'openSUSE', '15.3', release);
+if (!get_kb_item("Host/SuSE/rpm-list")) audit(AUDIT_PACKAGE_LIST_MISSING);
+
+var cpu = get_kb_item('Host/cpu');
+if (isnull(cpu)) audit(AUDIT_UNKNOWN_ARCH);
+if ('x86_64' >!< cpu && cpu !~ "^i[3-6]86$" && 's390' >!< cpu && 'aarch64' >!< cpu) audit(AUDIT_LOCAL_CHECKS_NOT_IMPLEMENTED, 'openSUSE ' + os_ver, cpu);
+
+var pkgs = [
+    {'reference':'binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'binutils-devel-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'binutils-devel-32bit-2.37-7.26.1', 'cpu':'x86_64', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'binutils-gold-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-aarch64-binutils-2.37-7.26.1', 'cpu':'s390x', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-aarch64-binutils-2.37-7.26.1', 'cpu':'x86_64', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-arm-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-avr-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-epiphany-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-hppa-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-hppa64-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-i386-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-ia64-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-m68k-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-mips-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-ppc-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-ppc64-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-ppc64le-binutils-2.37-7.26.1', 'cpu':'aarch64', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-ppc64le-binutils-2.37-7.26.1', 'cpu':'s390x', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-ppc64le-binutils-2.37-7.26.1', 'cpu':'x86_64', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-riscv64-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-rx-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-s390-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-s390x-binutils-2.37-7.26.1', 'cpu':'aarch64', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-s390x-binutils-2.37-7.26.1', 'cpu':'x86_64', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-sparc-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-sparc64-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-spu-binutils-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-x86_64-binutils-2.37-7.26.1', 'cpu':'aarch64', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'cross-x86_64-binutils-2.37-7.26.1', 'cpu':'s390x', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'libctf-nobfd0-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'libctf0-2.37-7.26.1', 'release':'SUSE15.3', 'rpm_spec_vers_cmp':TRUE}
+];
+
+var flag = 0;
+foreach package_array ( pkgs ) {
+  var reference = NULL;
+  var release = NULL;
+  var cpu = NULL;
+  var rpm_spec_vers_cmp = NULL;
+  if (!empty_or_null(package_array['reference'])) reference = package_array['reference'];
+  if (!empty_or_null(package_array['release'])) release = package_array['release'];
+  if (!empty_or_null(package_array['cpu'])) cpu = package_array['cpu'];
+  if (!empty_or_null(package_array['rpm_spec_vers_cmp'])) rpm_spec_vers_cmp = package_array['rpm_spec_vers_cmp'];
+  if (reference && release) {
+    if (rpm_check(release:release, cpu:cpu, reference:reference, rpm_spec_vers_cmp:rpm_spec_vers_cmp)) flag++;
+  }
+}
+
+if (flag)
+{
+  security_report_v4(
+      port       : 0,
+      severity   : SECURITY_WARNING,
+      extra      : rpm_report_get()
+  );
+  exit(0);
+}
+else
+{
+  var tested = pkg_tests_get();
+  if (tested) audit(AUDIT_PACKAGE_NOT_AFFECTED, tested);
+  else audit(AUDIT_PACKAGE_NOT_INSTALLED, 'binutils / binutils-devel / binutils-devel-32bit / binutils-gold / etc');
+}

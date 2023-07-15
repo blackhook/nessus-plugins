@@ -1,0 +1,110 @@
+#
+# (C) Tenable Network Security, Inc.
+#
+
+include('compat.inc');
+
+if (description)
+{
+  script_id(132994);
+  script_version("1.5");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2020/05/15");
+
+  script_cve_id(
+    "CVE-2020-0602",
+    "CVE-2020-0603",
+    "CVE-2020-0605",
+    "CVE-2020-0606"
+  );
+  script_xref(name:"IAVA", value:"2020-A-0031-S");
+
+  script_name(english:"Security Update for .NET Core SDK (January 2020)");
+  script_summary(english:"Checks for Windows Install of .NET Core SDK.");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote Windows host is affected by multiple .NET Core SDK vulnerabilities.");
+  script_set_attribute(attribute:"description", value:
+"The Microsoft .NET Core SDK installation on the remote host is version 2.1.x < 2.1.511 or 2.1.608, 3.0.x < 3.0.102, or
+3.1.x < 3.1.101. It is, therefore, affected by multiple vulnerabilities:
+
+  - A denial of service vulnerability exists when ASP.NET Core improperly handles web requests. An attacker who
+    successfully exploited this vulnerability could cause a denial of service against an ASP.NET Core web application.
+    The vulnerability can be exploited remotely, without authentication. A remote unauthenticated attacker could
+    exploit this vulnerability by issuing specially crafted requests to the ASP.NET Core application. (CVE-2020-0602)
+
+  - A remote code execution vulnerability exists in ASP.NET Core software when the software fails to handle objects in
+    memory. An attacker who successfully exploited the vulnerability could run arbitrary code in the context of the
+    current user. If the current user is logged on with administrative user rights, an attacker could take control of
+    the affected system. An attacker could then install programs; view, change, or delete data; or create new accounts
+    with full user rights. Users whose accounts are configured to have fewer user rights on the system could be less
+    impacted than users who operate with administrative user rights. (CVE-2020-0603)
+
+  - A remote code execution vulnerability exists in .NET software when the software fails to check the source markup of
+    a file. An attacker who successfully exploited the vulnerability could run arbitrary code in the context of the
+    current user. If the current user is logged on with administrative user rights, an attacker could take control of
+    the affected system. An attacker could then install programs; view, change, or delete data; or create new accounts
+    with full user rights. Users whose accounts are configured to have fewer user rights on the system could be less
+    impacted than users who operate with administrative user rights. (CVE-2020-0605, CVE-2020-0606)");
+  # https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0605
+  script_set_attribute(attribute:"see_also", value:"http://www.nessus.org/u?4e287012");
+  # https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0606
+  script_set_attribute(attribute:"see_also", value:"http://www.nessus.org/u?fa0a6c3c");
+  script_set_attribute(attribute:"see_also", value:"https://github.com/dotnet/announcements/issues/148");
+  script_set_attribute(attribute:"see_also", value:"https://github.com/dotnet/announcements/issues/149");
+  # https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0602
+  script_set_attribute(attribute:"see_also", value:"http://www.nessus.org/u?530ba67f");
+  # https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-0603
+  script_set_attribute(attribute:"see_also", value:"http://www.nessus.org/u?374d2043");
+  script_set_attribute(attribute:"see_also", value:"https://github.com/aspnet/Announcements/issues/402");
+  script_set_attribute(attribute:"see_also", value:"https://github.com/aspnet/Announcements/issues/403");
+  script_set_attribute(attribute:"see_also", value:"https://github.com/dotnet/aspnetcore/issues/18336");
+  script_set_attribute(attribute:"see_also", value:"https://github.com/dotnet/aspnetcore/issues/18337");
+  script_set_attribute(attribute:"solution", value:
+"Refer to vendor documentation.");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:M/Au:N/C:C/I:C/A:C");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2020-0606");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2020/01/14");
+  script_set_attribute(attribute:"patch_publication_date", value:"2020/01/14");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2020/01/16");
+
+  script_set_attribute(attribute:"potential_vulnerability", value:"true");
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"cpe:/a:microsoft:.net_core");
+  script_set_attribute(attribute:"stig_severity", value:"I");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Windows");
+
+  script_copyright(english:"This script is Copyright (C) 2020 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("microsoft_dotnet_core_sdk_win.nbin");
+  script_require_keys("installed_sw/.NET Core SDK Windows", "Settings/ParanoidReport");
+  script_require_ports(139, 445);
+
+  exit(0);
+}
+
+include('vcf.inc');
+
+if (report_paranoia < 2) audit(AUDIT_PARANOID);
+
+app = '.NET Core SDK Windows';
+
+app_info = vcf::get_app_info(app:app, win_local:TRUE);
+
+constraints = [
+  { 'min_version' : '2.1', 'fixed_version' : '2.1.511' },
+  { 'min_version' : '2.1.600', 'fixed_version' : '2.1.608'},
+  { 'min_version' : '3.0.0', 'fixed_version' : '3.0.102' },
+  { 'min_version' : '3.1.0', 'fixed_version' : '3.1.101' }
+];
+
+vcf::check_version_and_report(app_info:app_info, constraints:constraints, severity:SECURITY_HOLE);
+

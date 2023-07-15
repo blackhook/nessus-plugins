@@ -1,0 +1,106 @@
+#
+# (C) Tenable Network Security, Inc.
+#
+# The descriptive text and package checks in this plugin were
+# extracted from the Microsoft Security Updates API. The text
+# itself is copyright (C) Microsoft Corporation.
+#
+include("compat.inc");
+
+if (description)
+{
+  script_id(123513);
+  script_version("1.4");
+  script_cvs_date("Date: 2019/10/30 13:24:47");
+
+  script_cve_id("CVE-2018-8566");
+  script_bugtraq_id(105806);
+  script_xref(name:"MSKB", value:"4465659");
+  script_xref(name:"MSFT", value:"MS18-4465659");
+
+  script_name(english:"KB4465659 BitLocker Security Feature Bypass Vulnerability");
+  script_summary(english:"Checks for rollup.");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote Windows host is affected by multiple vulnerabilities.");
+  script_set_attribute(attribute:"description", value:
+"The remote Windows host is missing security update 4465659.
+It is, therefore, affected by multiple vulnerabilities :
+
+  - A security feature bypass vulnerability exists when
+    Windows improperly suspends BitLocker Device Encryption.
+    An attacker with physical access to a powered off system
+    could exploit this vulnerability to gain access to
+    encrypted data.  (CVE-2018-8566)");
+  # https://support.microsoft.com/en-us/help/4465659/servicing-stack-update-for-windows-10
+  script_set_attribute(attribute:"see_also", value:"http://www.nessus.org/u?2f63a4b4");
+  script_set_attribute(attribute:"solution", value:
+  "Apply Service Stack Update KB4465659.");
+  script_set_cvss_base_vector("CVSS2#AV:L/AC:L/Au:N/C:P/I:N/A:N");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2018-8566");
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2018/11/13");
+  script_set_attribute(attribute:"patch_publication_date", value:"2018/11/13");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2019/03/29");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:microsoft:windows");
+  script_set_attribute(attribute:"potential_vulnerability", value:"true");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Windows : Microsoft Bulletins");
+
+  script_copyright(english:"This script is Copyright (C) 2019 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("smb_check_rollup.nasl", "smb_hotfixes.nasl", "ms_bulletin_checks_possible.nasl");
+  script_require_keys("SMB/MS_Bulletin_Checks/Possible", "Settings/ParanoidReport");
+  script_require_ports(139, 445, "Host/patch_management_checks");
+
+  exit(0);
+}
+
+include('audit.inc');
+include('smb_hotfixes_fcheck.inc');
+include('smb_hotfixes.inc');
+include('smb_func.inc');
+include('misc_func.inc');
+
+if (report_paranoia < 2) audit(AUDIT_PARANOID);
+
+get_kb_item_or_exit('SMB/MS_Bulletin_Checks/Possible');
+
+bulletin = 'MS18-11';
+kbs = make_list('4465659');
+
+if (get_kb_item('Host/patch_management_checks')) hotfix_check_3rd_party(bulletin:bulletin, kbs:kbs, severity:SECURITY_NOTE);
+
+get_kb_item_or_exit('SMB/Registry/Enumerated');
+my_os = get_kb_item_or_exit('SMB/WindowsVersion', exit_code:1);
+my_os_build = get_kb_item_or_exit('SMB/WindowsVersionBuild', exit_code:1);
+
+if (hotfix_check_sp_range(win10:'0') <= 0) audit(AUDIT_OS_SP_NOT_VULN);
+
+
+if ( '10' >!< my_os && '2016' >!< my_os ) audit(AUDIT_OS_NOT, 'Windows 10 / Server 2016');
+if ( my_os_build != '14393') audit(AUDIT_OS_NOT, 'Build 14393');
+
+kb_installed = get_kb_item('WMI/Installed/Hotfix/KB4465659');
+
+if ( isnull(kb_installed) || kb_installed == 0 )
+{
+  replace_kb_item(name:'SMB/Missing/'+bulletin, value:TRUE);
+  hotfix_security_note();
+  hotfix_check_fversion_end();
+  exit(0);
+}
+else
+{
+  hotfix_check_fversion_end();
+  audit(AUDIT_HOST_NOT, hotfix_get_audit_report());
+}
+

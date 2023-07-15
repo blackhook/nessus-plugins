@@ -1,0 +1,84 @@
+#%NASL_MIN_LEVEL 80900
+##
+# (C) Tenable, Inc.
+##
+
+include('compat.inc');
+
+if (description)
+{
+  script_id(171072);
+  script_version("1.2");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2023/04/12");
+
+  script_cve_id("CVE-2023-20073");
+  script_xref(name:"CISCO-BUG-ID", value:"CSCwe04040");
+  script_xref(name:"CISCO-SA", value:"cisco-sa-sb-rv-afu-EXxwA65V");
+
+  script_name(english:"Cisco RV340, RV340W, RV345, and RV345P Dual WAN Gigabit VPN Routers Arbitrary File Upload (cisco-sa-sb-rv-afu-EXxwA65V)");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote device is missing a vendor-supplied security patch.");
+  script_set_attribute(attribute:"description", value:
+"According to its self-reported version, Cisco RV340, RV340W, RV345, and RV345P Dual WAN Gigabit VPN Routers are
+affected by an arbitrary file upload vulnerability due to insufficient authorization enforcement mechanisms. An
+unauthenticated, remote attacker can exploit this to upload arbitrary files.
+
+Please see the included Cisco BIDs and Cisco Security Advisory for more information.");
+  # https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sb-rv-afu-EXxwA65V
+  script_set_attribute(attribute:"see_also", value:"http://www.nessus.org/u?0ffb4e84");
+  script_set_attribute(attribute:"see_also", value:"https://bst.cloudapps.cisco.com/bugsearch/bug/CSCwe04040");
+  script_set_attribute(attribute:"solution", value:
+"Upgrade to the relevant fixed version referenced in Cisco bug ID CSCwe04040");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:N/C:C/I:C/A:C");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2023-20073");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"false");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2023/02/01");
+  script_set_attribute(attribute:"patch_publication_date", value:"2023/02/01");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2023/02/07");
+
+  script_set_attribute(attribute:"potential_vulnerability", value:"true");
+  script_set_attribute(attribute:"plugin_type", value:"combined");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:cisco:small_business_rv_series_router_firmware");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"CISCO");
+
+  script_copyright(english:"This script is Copyright (C) 2023 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("cisco_small_business_detect.nasl", "cisco_rv_webui_detect.nbin");
+  script_require_keys("Cisco/Small_Business_Router/Version", "Cisco/Small_Business_Router/Model");
+
+  exit(0);
+}
+
+include('ccf.inc');
+
+var product_info = cisco::get_product_info(name:'Cisco Small Business Series Router Firmware');
+
+# RV340, RV340W, RV345, and RV345P
+if (product_info['model'] !~ "^RV34(0W?|5P?)")
+  audit(AUDIT_HOST_NOT, 'an affected Cisco Small Business RV Series router');
+
+var vuln_ranges = [ {'min_ver':'0.0', 'fix_ver' : '1.0.03.29'} ];
+
+var reporting = make_array(
+  'port'          , 0,
+  'severity'      , SECURITY_HOLE,
+  'version'       , product_info['version'],
+  'bug_id'        , 'CSCwe04040',
+  'disable_caveat', TRUE
+);
+
+cisco::check_and_report(
+  product_info:product_info,
+  reporting:reporting,
+  vuln_ranges:vuln_ranges
+);

@@ -1,0 +1,147 @@
+#%NASL_MIN_LEVEL 80900
+##
+# (C) Tenable, Inc.
+#
+# The descriptive text and package checks in this plugin were
+# extracted from Ubuntu Security Notice USN-6209-1. The text
+# itself is copyright (C) Canonical, Inc. See
+# <https://ubuntu.com/security/notices>. Ubuntu(R) is a registered
+# trademark of Canonical, Inc.
+##
+
+include('compat.inc');
+
+if (description)
+{
+  script_id(178107);
+  script_version("1.0");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2023/07/10");
+
+  script_cve_id(
+    "CVE-2021-40391",
+    "CVE-2021-40393",
+    "CVE-2021-40394",
+    "CVE-2021-40400",
+    "CVE-2021-40401",
+    "CVE-2021-40403"
+  );
+  script_xref(name:"USN", value:"6209-1");
+
+  script_name(english:"Ubuntu 16.04 ESM / 18.04 ESM / 20.04 LTS / 22.04 ESM : Gerbv vulnerabilities (USN-6209-1)");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote Ubuntu host is missing one or more security updates.");
+  script_set_attribute(attribute:"description", value:
+"The remote Ubuntu 16.04 ESM / 18.04 ESM / 20.04 LTS / 22.04 ESM host has a package installed that is affected by
+multiple vulnerabilities as referenced in the USN-6209-1 advisory.
+
+  - An out-of-bounds write vulnerability exists in the drill format T-code tool number functionality of Gerbv
+    2.7.0, dev (commit b5f1eacd), and the forked version of Gerbv (commit 71493260). A specially-crafted drill
+    file can lead to code execution. An attacker can provide a malicious file to trigger this vulnerability.
+    (CVE-2021-40391)
+
+  - An out-of-bounds write vulnerability exists in the RS-274X aperture macro variables handling functionality
+    of Gerbv 2.7.0 and dev (commit b5f1eacd) and the forked version of Gerbv (commit 71493260). A specially-
+    crafted gerber file can lead to code execution. An attacker can provide a malicious file to trigger this
+    vulnerability. (CVE-2021-40393, CVE-2021-40394)
+
+  - An out-of-bounds read vulnerability exists in the RS-274X aperture macro outline primitive functionality
+    of Gerbv 2.7.0 and dev (commit b5f1eacd) and the forked version of Gerbv (commit d7f42a9a). A specially-
+    crafted Gerber file can lead to information disclosure. An attacker can provide a malicious file to
+    trigger this vulnerability. (CVE-2021-40400)
+
+  - A use-after-free vulnerability exists in the RS-274X aperture definition tokenization functionality of
+    Gerbv 2.7.0 and dev (commit b5f1eacd) and Gerbv forked 2.7.1. A specially-crafted gerber file can lead to
+    code execution. An attacker can provide a malicious file to trigger this vulnerability. (CVE-2021-40401)
+
+  - An information disclosure vulnerability exists in the pick-and-place rotation parsing functionality of
+    Gerbv 2.7.0 and dev (commit b5f1eacd), and Gerbv forked 2.8.0. A specially-crafted pick-and-place file can
+    exploit the missing initialization of a structure to leak memory contents. An attacker can provide a
+    malicious file to trigger this vulnerability. (CVE-2021-40403)
+
+Note that Nessus has not tested for these issues but has instead relied only on the application's self-reported version
+number.");
+  script_set_attribute(attribute:"see_also", value:"https://ubuntu.com/security/notices/USN-6209-1");
+  script_set_attribute(attribute:"solution", value:
+"Update the affected gerbv package.");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:N/C:P/I:P/A:P");
+  script_set_cvss_temporal_vector("CVSS2#E:POC/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:P/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2021-40394");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"Exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"true");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2021/11/19");
+  script_set_attribute(attribute:"patch_publication_date", value:"2023/07/07");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2023/07/10");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:canonical:ubuntu_linux:16.04:-:esm");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:canonical:ubuntu_linux:18.04:-:esm");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:canonical:ubuntu_linux:20.04:-:lts");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:canonical:ubuntu_linux:22.04:-:esm");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:gerbv");
+  script_set_attribute(attribute:"generated_plugin", value:"current");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Ubuntu Local Security Checks");
+
+  script_copyright(english:"Ubuntu Security Notice (C) 2023 Canonical, Inc. / NASL script (C) 2023 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("ssh_get_info.nasl");
+  script_require_keys("Host/cpu", "Host/Ubuntu", "Host/Ubuntu/release", "Host/Debian/dpkg-l");
+
+  exit(0);
+}
+
+include('debian_package.inc');
+
+if ( ! get_kb_item('Host/local_checks_enabled') ) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+var os_release = get_kb_item('Host/Ubuntu/release');
+if ( isnull(os_release) ) audit(AUDIT_OS_NOT, 'Ubuntu');
+os_release = chomp(os_release);
+if (! ('16.04' >< os_release || '18.04' >< os_release || '20.04' >< os_release || '22.04' >< os_release)) audit(AUDIT_OS_NOT, 'Ubuntu 16.04 / 18.04 / 20.04 / 22.04', 'Ubuntu ' + os_release);
+if ( ! get_kb_item('Host/Debian/dpkg-l') ) audit(AUDIT_PACKAGE_LIST_MISSING);
+
+var cpu = get_kb_item('Host/cpu');
+if (isnull(cpu)) audit(AUDIT_UNKNOWN_ARCH);
+if ('x86_64' >!< cpu && cpu !~ "^i[3-6]86$" && 's390' >!< cpu && 'aarch64' >!< cpu) audit(AUDIT_LOCAL_CHECKS_NOT_IMPLEMENTED, 'Ubuntu', cpu);
+
+var pkgs = [
+    {'osver': '16.04', 'pkgname': 'gerbv', 'pkgver': '2.6.0-1ubuntu0.16.04.1~esm1'},
+    {'osver': '18.04', 'pkgname': 'gerbv', 'pkgver': '2.6.1-3ubuntu0.1~esm1'},
+    {'osver': '20.04', 'pkgname': 'gerbv', 'pkgver': '2.7.0-1ubuntu0.1'},
+    {'osver': '22.04', 'pkgname': 'gerbv', 'pkgver': '2.8.2-1ubuntu0.1~esm1'}
+];
+
+var flag = 0;
+foreach package_array ( pkgs ) {
+  var osver = NULL;
+  var pkgname = NULL;
+  var pkgver = NULL;
+  if (!empty_or_null(package_array['osver'])) osver = package_array['osver'];
+  if (!empty_or_null(package_array['pkgname'])) pkgname = package_array['pkgname'];
+  if (!empty_or_null(package_array['pkgver'])) pkgver = package_array['pkgver'];
+  if (osver && pkgname && pkgver) {
+    if (ubuntu_check(osver:osver, pkgname:pkgname, pkgver:pkgver)) flag++;
+  }
+}
+
+if (flag)
+{
+  security_report_v4(
+    port       : 0,
+    severity   : SECURITY_HOLE,
+    extra      : ubuntu_report_get()
+  );
+  exit(0);
+}
+else
+{
+  var tested = ubuntu_pkg_tests_get();
+  if (tested) audit(AUDIT_PACKAGE_NOT_AFFECTED, tested);
+  else audit(AUDIT_PACKAGE_NOT_INSTALLED, 'gerbv');
+}

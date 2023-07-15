@@ -1,0 +1,166 @@
+#%NASL_MIN_LEVEL 70300
+#
+# (C) Tenable Network Security, Inc.
+#
+
+include('deprecated_nasl_level.inc');
+include('compat.inc');
+
+if (description)
+{
+  script_id(103085);
+  script_version("3.12");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2021/01/06");
+
+  script_cve_id(
+    "CVE-2016-10207",
+    "CVE-2017-5581",
+    "CVE-2017-7392",
+    "CVE-2017-7393",
+    "CVE-2017-7394",
+    "CVE-2017-7395",
+    "CVE-2017-7396"
+  );
+
+  script_name(english:"EulerOS 2.0 SP1 : tigervnc (EulerOS-SA-2017-1227)");
+  script_summary(english:"Checks the rpm output for the updated packages.");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote EulerOS host is missing multiple security updates.");
+  script_set_attribute(attribute:"description", value:
+"According to the versions of the tigervnc packages installed, the
+EulerOS installation on the remote host is affected by the following
+vulnerabilities :
+
+  - A denial of service flaw was found in the TigerVNC's
+    Xvnc server. A remote unauthenticated attacker could
+    use this flaw to make Xvnc crash by terminating the TLS
+    handshake process early. (CVE-2016-10207)
+
+  - A double free flaw was found in the way TigerVNC
+    handled ClientFence messages. A remote, authenticated
+    attacker could use this flaw to make Xvnc crash by
+    sending specially crafted ClientFence messages,
+    resulting in denial of service. (CVE-2017-7393)
+
+  - A missing input sanitization flaw was found in the way
+    TigerVNC handled credentials. A remote unauthenticated
+    attacker could use this flaw to make Xvnc crash by
+    sending specially crafted usernames, resulting in
+    denial of service. (CVE-2017-7394)
+
+  - An integer overflow flaw was found in the way TigerVNC
+    handled ClientCutText messages. A remote, authenticated
+    attacker could use this flaw to make Xvnc crash by
+    sending specially crafted ClientCutText messages,
+    resulting in denial of service. (CVE-2017-7395)
+
+  - A buffer overflow flaw, leading to memory corruption,
+    was found in TigerVNC viewer. A remote malicious VNC
+    server could use this flaw to crash the client
+    vncviewer process resulting in denial of service.
+    (CVE-2017-5581)
+
+  - A memory leak flaw was found in the way TigerVNC
+    handled termination of VeNCrypt connections. A remote
+    unauthenticated attacker could repeatedly send
+    connection requests to the Xvnc server, causing it to
+    consume large amounts of memory resources over time,
+    and ultimately leading to a denial of service due to
+    memory exhaustion. (CVE-2017-7392)
+
+  - A memory leak flaw was found in the way TigerVNC
+    handled client connections. A remote unauthenticated
+    attacker could repeatedly send connection requests to
+    the Xvnc server, causing it to consume large amounts of
+    memory resources over time, and ultimately leading to a
+    denial of service due to memory exhaustion.
+    (CVE-2017-7396)
+
+Note that Tenable Network Security has extracted the preceding
+description block directly from the EulerOS security advisory. Tenable
+has attempted to automatically clean and format it as much as possible
+without introducing additional issues.");
+  # https://developer.huaweicloud.com/ict/en/site-euleros/euleros/security-advisories/EulerOS-SA-2017-1227
+  script_set_attribute(attribute:"see_also", value:"http://www.nessus.org/u?81ebae36");
+  script_set_attribute(attribute:"solution", value:
+"Update the affected tigervnc packages.");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:M/Au:N/C:P/I:P/A:P");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+
+  script_set_attribute(attribute:"patch_publication_date", value:"2017/09/06");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2017/09/11");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:tigervnc");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:tigervnc-icons");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:tigervnc-license");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:tigervnc-server");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:huawei:euleros:tigervnc-server-minimal");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:huawei:euleros:2.0");
+  script_set_attribute(attribute:"generated_plugin", value:"current");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Huawei Local Security Checks");
+
+  script_copyright(english:"This script is Copyright (C) 2017-2021 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("ssh_get_info.nasl");
+  script_require_keys("Host/local_checks_enabled", "Host/EulerOS/release", "Host/EulerOS/rpm-list", "Host/EulerOS/sp");
+  script_exclude_keys("Host/EulerOS/uvp_version");
+
+  exit(0);
+}
+
+include("audit.inc");
+include("global_settings.inc");
+include("rpm.inc");
+
+if (!get_kb_item("Host/local_checks_enabled")) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+
+release = get_kb_item("Host/EulerOS/release");
+if (isnull(release) || release !~ "^EulerOS") audit(AUDIT_OS_NOT, "EulerOS");
+if (release !~ "^EulerOS release 2\.0(\D|$)") audit(AUDIT_OS_NOT, "EulerOS 2.0");
+
+sp = get_kb_item("Host/EulerOS/sp");
+if (isnull(sp) || sp !~ "^(1)$") audit(AUDIT_OS_NOT, "EulerOS 2.0 SP1");
+
+uvp = get_kb_item("Host/EulerOS/uvp_version");
+if (!empty_or_null(uvp)) audit(AUDIT_OS_NOT, "EulerOS 2.0 SP1", "EulerOS UVP " + uvp);
+
+if (!get_kb_item("Host/EulerOS/rpm-list")) audit(AUDIT_PACKAGE_LIST_MISSING);
+
+cpu = get_kb_item("Host/cpu");
+if (isnull(cpu)) audit(AUDIT_UNKNOWN_ARCH);
+if ("x86_64" >!< cpu && cpu !~ "^i[3-6]86$" && "aarch64" >!< cpu) audit(AUDIT_LOCAL_CHECKS_NOT_IMPLEMENTED, "EulerOS", cpu);
+if ("x86_64" >!< cpu && cpu !~ "^i[3-6]86$") audit(AUDIT_ARCH_NOT, "i686 / x86_64", cpu);
+
+flag = 0;
+
+pkgs = ["tigervnc-1.2.80-0.32.20130314svn5065.h1",
+        "tigervnc-icons-1.2.80-0.32.20130314svn5065.h1",
+        "tigervnc-license-1.2.80-0.32.20130314svn5065.h1",
+        "tigervnc-server-1.2.80-0.32.20130314svn5065.h1",
+        "tigervnc-server-minimal-1.2.80-0.32.20130314svn5065.h1"];
+
+foreach (pkg in pkgs)
+  if (rpm_check(release:"EulerOS-2.0", sp:"1", reference:pkg)) flag++;
+
+if (flag)
+{
+  security_report_v4(
+    port       : 0,
+    severity   : SECURITY_WARNING,
+    extra      : rpm_report_get()
+  );
+  exit(0);
+}
+else
+{
+  tested = pkg_tests_get();
+  if (tested) audit(AUDIT_PACKAGE_NOT_AFFECTED, tested);
+  else audit(AUDIT_PACKAGE_NOT_INSTALLED, "tigervnc");
+}

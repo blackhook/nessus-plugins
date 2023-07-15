@@ -1,0 +1,243 @@
+#%NASL_MIN_LEVEL 70300
+##
+# (C) Tenable Network Security, Inc.
+#
+# The descriptive text and package checks in this plugin were
+# extracted from Oracle Linux Security Advisory ELSA-2011-2025.
+##
+
+include('deprecated_nasl_level.inc');
+include('compat.inc');
+
+if (description)
+{
+  script_id(68421);
+  script_version("1.19");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2021/09/08");
+
+  script_cve_id(
+    "CVE-2011-1576",
+    "CVE-2011-1898",
+    "CVE-2011-2183",
+    "CVE-2011-2491",
+    "CVE-2011-2492",
+    "CVE-2011-2495",
+    "CVE-2011-2497",
+    "CVE-2011-2517",
+    "CVE-2011-2695"
+  );
+
+  script_name(english:"Oracle Linux 5 / 6 : Unbreakable Enterprise kernel (ELSA-2011-2025)");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote Oracle Linux host is missing one or more security updates.");
+  script_set_attribute(attribute:"description", value:
+"The remote Oracle Linux 5 / 6 host has packages installed that are affected by multiple vulnerabilities as referenced in
+the ELSA-2011-2025 advisory.
+
+  - The Generic Receive Offload (GRO) implementation in the Linux kernel 2.6.18 on Red Hat Enterprise Linux 5
+    and 2.6.32 on Red Hat Enterprise Linux 6, as used in Red Hat Enterprise Virtualization (RHEV) Hypervisor
+    and other products, allows remote attackers to cause a denial of service via crafted VLAN packets that are
+    processed by the napi_reuse_skb function, leading to (1) a memory leak or (2) memory corruption, a
+    different vulnerability than CVE-2011-1478. (CVE-2011-1576)
+
+  - Xen 4.1 before 4.1.1 and 4.0 before 4.0.2, when using PCI passthrough on Intel VT-d chipsets that do not
+    have interrupt remapping, allows guest OS users to gain host OS privileges by using DMA to generate MSI
+    interrupts by writing to the interrupt injection registers. (CVE-2011-1898)
+
+  - Race condition in the scan_get_next_rmap_item function in mm/ksm.c in the Linux kernel before 2.6.39.3,
+    when Kernel SamePage Merging (KSM) is enabled, allows local users to cause a denial of service (NULL
+    pointer dereference) or possibly have unspecified other impact via a crafted application. (CVE-2011-2183)
+
+  - The Network Lock Manager (NLM) protocol implementation in the NFS client functionality in the Linux kernel
+    before 3.0 allows local users to cause a denial of service (system hang) via a LOCK_UN flock system call.
+    (CVE-2011-2491)
+
+  - The bluetooth subsystem in the Linux kernel before 3.0-rc4 does not properly initialize certain data
+    structures, which allows local users to obtain potentially sensitive information from kernel memory via a
+    crafted getsockopt system call, related to (1) the l2cap_sock_getsockopt_old function in
+    net/bluetooth/l2cap_sock.c and (2) the rfcomm_sock_getsockopt_old function in net/bluetooth/rfcomm/sock.c.
+    (CVE-2011-2492)
+
+  - fs/proc/base.c in the Linux kernel before 2.6.39.4 does not properly restrict access to /proc/#####/io
+    files, which allows local users to obtain sensitive I/O statistics by polling a file, as demonstrated by
+    discovering the length of another user's password. (CVE-2011-2495)
+
+  - Integer underflow in the l2cap_config_req function in net/bluetooth/l2cap_core.c in the Linux kernel
+    before 3.0 allows remote attackers to cause a denial of service (heap memory corruption) or possibly have
+    unspecified other impact via a small command-size value within the command header of a Logical Link
+    Control and Adaptation Protocol (L2CAP) configuration request, leading to a buffer overflow.
+    (CVE-2011-2497)
+
+  - Multiple buffer overflows in net/wireless/nl80211.c in the Linux kernel before 2.6.39.2 allow local users
+    to gain privileges by leveraging the CAP_NET_ADMIN capability during scan operations with a long SSID
+    value. (CVE-2011-2517)
+
+  - Multiple off-by-one errors in the ext4 subsystem in the Linux kernel before 3.0-rc5 allow local users to
+    cause a denial of service (BUG_ON and system crash) by accessing a sparse file in extent format with a
+    write operation involving a block number corresponding to the largest possible 32-bit unsigned integer.
+    (CVE-2011-2695)
+
+Note that Nessus has not tested for this issue but has instead relied only on the application's self-reported version
+number.");
+  script_set_attribute(attribute:"see_also", value:"https://linux.oracle.com/errata/ELSA-2011-2025.html");
+  script_set_attribute(attribute:"solution", value:
+"Update the affected packages.");
+  script_set_cvss_base_vector("CVSS2#AV:A/AC:L/Au:N/C:C/I:C/A:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2011-2497");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"Exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"true");
+  script_set_attribute(attribute:"exploited_by_malware", value:"true");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2011/06/02");
+  script_set_attribute(attribute:"patch_publication_date", value:"2011/08/24");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2013/07/12");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:oracle:linux:5");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:oracle:linux:6");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek-debug");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek-debug-devel");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek-devel");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek-doc");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek-firmware");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek-headers");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:ofa-2.6.32-200.19.1.el5uek");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:ofa-2.6.32-200.19.1.el5uekdebug");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:ofa-2.6.32-200.19.1.el6uek");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:ofa-2.6.32-200.19.1.el6uekdebug");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Oracle Linux Local Security Checks");
+
+  script_copyright(english:"This script is Copyright (C) 2013-2021 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("linux_alt_patch_detect.nasl", "ssh_get_info.nasl");
+  script_require_keys("Host/OracleLinux", "Host/RedHat/release", "Host/RedHat/rpm-list", "Host/local_checks_enabled");
+
+  exit(0);
+}
+
+
+include('audit.inc');
+include('global_settings.inc');
+include('ksplice.inc');
+include('rpm.inc');
+
+if (!get_kb_item('Host/local_checks_enabled')) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+if (!get_kb_item('Host/OracleLinux')) audit(AUDIT_OS_NOT, 'Oracle Linux');
+var release = get_kb_item("Host/RedHat/release");
+if (isnull(release) || !pregmatch(pattern: "Oracle (?:Linux Server|Enterprise Linux)", string:release)) audit(AUDIT_OS_NOT, 'Oracle Linux');
+var os_ver = pregmatch(pattern: "Oracle (?:Linux Server|Enterprise Linux) .*release ([0-9]+(\.[0-9]+)?)", string:release);
+if (isnull(os_ver)) audit(AUDIT_UNKNOWN_APP_VER, 'Oracle Linux');
+var os_ver = os_ver[1];
+if (! preg(pattern:"^(5|6)([^0-9]|$)", string:os_ver)) audit(AUDIT_OS_NOT, 'Oracle Linux 5 / 6', 'Oracle Linux ' + os_ver);
+
+if (!get_kb_item('Host/RedHat/rpm-list')) audit(AUDIT_PACKAGE_LIST_MISSING);
+
+var cpu = get_kb_item('Host/cpu');
+if (isnull(cpu)) audit(AUDIT_UNKNOWN_ARCH);
+if ('x86_64' >!< cpu && cpu !~ "^i[3-6]86$" && 'aarch64' >!< cpu) audit(AUDIT_LOCAL_CHECKS_NOT_IMPLEMENTED, 'Oracle Linux', cpu);
+
+var machine_uptrack_level = get_one_kb_item('Host/uptrack-uname-r');
+if (machine_uptrack_level)
+{
+  var trimmed_uptrack_level = ereg_replace(string:machine_uptrack_level, pattern:"\.(x86_64|i[3-6]86|aarch64)$", replace:'');
+  var fixed_uptrack_levels = ['2.6.32-200.19.1.el5uek', '2.6.32-200.19.1.el6uek'];
+  foreach var fixed_uptrack_level ( fixed_uptrack_levels ) {
+    if (rpm_spec_vers_cmp(a:trimmed_uptrack_level, b:fixed_uptrack_level) >= 0)
+    {
+      audit(AUDIT_PATCH_INSTALLED, 'KSplice hotfix for ELSA-2011-2025');
+    }
+  }
+  __rpm_report = 'Running KSplice level of ' + trimmed_uptrack_level + ' does not meet the minimum fixed level of ' + join(fixed_uptrack_levels, sep:' / ') + ' for this advisory.\n\n';
+}
+
+var kernel_major_minor = get_kb_item('Host/uname/major_minor');
+if (empty_or_null(kernel_major_minor)) exit(1, 'Unable to determine kernel major-minor level.');
+var expected_kernel_major_minor = '2.6';
+if (kernel_major_minor != expected_kernel_major_minor)
+  audit(AUDIT_OS_NOT, 'running kernel level ' + expected_kernel_major_minor + ', it is running kernel level ' + kernel_major_minor);
+
+var pkgs = [
+    {'reference':'kernel-uek-2.6.32-200.19.1.el5uek', 'cpu':'i686', 'release':'5', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-2.6.32'},
+    {'reference':'kernel-uek-2.6.32-200.19.1.el5uek', 'cpu':'x86_64', 'release':'5', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-2.6.32'},
+    {'reference':'kernel-uek-debug-2.6.32-200.19.1.el5uek', 'cpu':'i686', 'release':'5', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-debug-2.6.32'},
+    {'reference':'kernel-uek-debug-2.6.32-200.19.1.el5uek', 'cpu':'x86_64', 'release':'5', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-debug-2.6.32'},
+    {'reference':'kernel-uek-debug-devel-2.6.32-200.19.1.el5uek', 'cpu':'i686', 'release':'5', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-debug-devel-2.6.32'},
+    {'reference':'kernel-uek-debug-devel-2.6.32-200.19.1.el5uek', 'cpu':'x86_64', 'release':'5', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-debug-devel-2.6.32'},
+    {'reference':'kernel-uek-devel-2.6.32-200.19.1.el5uek', 'cpu':'i686', 'release':'5', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-devel-2.6.32'},
+    {'reference':'kernel-uek-devel-2.6.32-200.19.1.el5uek', 'cpu':'x86_64', 'release':'5', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-devel-2.6.32'},
+    {'reference':'kernel-uek-doc-2.6.32-200.19.1.el5uek', 'release':'5', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-doc-2.6.32'},
+    {'reference':'kernel-uek-firmware-2.6.32-200.19.1.el5uek', 'release':'5', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-firmware-2.6.32'},
+    {'reference':'kernel-uek-headers-2.6.32-200.19.1.el5uek', 'cpu':'i686', 'release':'5', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-headers-2.6.32'},
+    {'reference':'kernel-uek-headers-2.6.32-200.19.1.el5uek', 'cpu':'x86_64', 'release':'5', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-headers-2.6.32'},
+    {'reference':'ofa-2.6.32-200.19.1.el5uek-1.5.1-4.0.28', 'cpu':'i686', 'release':'5', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'ofa-2.6.32-200.19.1.el5uek-1.5.1-4.0.28', 'cpu':'x86_64', 'release':'5', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'ofa-2.6.32-200.19.1.el5uekdebug-1.5.1-4.0.28', 'cpu':'i686', 'release':'5', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'ofa-2.6.32-200.19.1.el5uekdebug-1.5.1-4.0.28', 'cpu':'x86_64', 'release':'5', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'kernel-uek-2.6.32-200.19.1.el6uek', 'cpu':'i686', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-2.6.32'},
+    {'reference':'kernel-uek-2.6.32-200.19.1.el6uek', 'cpu':'x86_64', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-2.6.32'},
+    {'reference':'kernel-uek-debug-2.6.32-200.19.1.el6uek', 'cpu':'i686', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-debug-2.6.32'},
+    {'reference':'kernel-uek-debug-2.6.32-200.19.1.el6uek', 'cpu':'x86_64', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-debug-2.6.32'},
+    {'reference':'kernel-uek-debug-devel-2.6.32-200.19.1.el6uek', 'cpu':'i686', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-debug-devel-2.6.32'},
+    {'reference':'kernel-uek-debug-devel-2.6.32-200.19.1.el6uek', 'cpu':'x86_64', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-debug-devel-2.6.32'},
+    {'reference':'kernel-uek-devel-2.6.32-200.19.1.el6uek', 'cpu':'i686', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-devel-2.6.32'},
+    {'reference':'kernel-uek-devel-2.6.32-200.19.1.el6uek', 'cpu':'x86_64', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-devel-2.6.32'},
+    {'reference':'kernel-uek-doc-2.6.32-200.19.1.el6uek', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-doc-2.6.32'},
+    {'reference':'kernel-uek-firmware-2.6.32-200.19.1.el6uek', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-firmware-2.6.32'},
+    {'reference':'kernel-uek-headers-2.6.32-200.19.1.el6uek', 'cpu':'i686', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-headers-2.6.32'},
+    {'reference':'kernel-uek-headers-2.6.32-200.19.1.el6uek', 'cpu':'x86_64', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-headers-2.6.32'},
+    {'reference':'ofa-2.6.32-200.19.1.el6uek-1.5.1-4.0.47', 'cpu':'i686', 'release':'6', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'ofa-2.6.32-200.19.1.el6uek-1.5.1-4.0.47', 'cpu':'x86_64', 'release':'6', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'ofa-2.6.32-200.19.1.el6uekdebug-1.5.1-4.0.47', 'cpu':'i686', 'release':'6', 'rpm_spec_vers_cmp':TRUE},
+    {'reference':'ofa-2.6.32-200.19.1.el6uekdebug-1.5.1-4.0.47', 'cpu':'x86_64', 'release':'6', 'rpm_spec_vers_cmp':TRUE}
+];
+
+var flag = 0;
+foreach var package_array ( pkgs ) {
+  var reference = NULL;
+  var release = NULL;
+  var sp = NULL;
+  var cpu = NULL;
+  var el_string = NULL;
+  var rpm_spec_vers_cmp = NULL;
+  var epoch = NULL;
+  var allowmaj = NULL;
+  var exists_check = NULL;
+  if (!empty_or_null(package_array['reference'])) reference = package_array['reference'];
+  if (!empty_or_null(package_array['release'])) release = 'EL' + package_array['release'];
+  if (!empty_or_null(package_array['sp'])) sp = package_array['sp'];
+  if (!empty_or_null(package_array['cpu'])) cpu = package_array['cpu'];
+  if (!empty_or_null(package_array['el_string'])) el_string = package_array['el_string'];
+  if (!empty_or_null(package_array['rpm_spec_vers_cmp'])) rpm_spec_vers_cmp = package_array['rpm_spec_vers_cmp'];
+  if (!empty_or_null(package_array['epoch'])) epoch = package_array['epoch'];
+  if (!empty_or_null(package_array['allowmaj'])) allowmaj = package_array['allowmaj'];
+  if (!empty_or_null(package_array['exists_check'])) exists_check = package_array['exists_check'];
+  if (reference && release) {
+    if (exists_check) {
+        if (rpm_exists(release:release, rpm:exists_check) && rpm_check(release:release, sp:sp, cpu:cpu, reference:reference, epoch:epoch, el_string:el_string, rpm_spec_vers_cmp:rpm_spec_vers_cmp, allowmaj:allowmaj)) flag++;
+    } else {
+        if (rpm_check(release:release, sp:sp, cpu:cpu, reference:reference, epoch:epoch, el_string:el_string, rpm_spec_vers_cmp:rpm_spec_vers_cmp, allowmaj:allowmaj)) flag++;
+    }
+  }
+}
+
+if (flag)
+{
+  security_report_v4(
+      port       : 0,
+      severity   : SECURITY_HOLE,
+      extra      : rpm_report_get()
+  );
+  exit(0);
+}
+else
+{
+  var tested = pkg_tests_get();
+  if (tested) audit(AUDIT_PACKAGE_NOT_AFFECTED, tested);
+  else audit(AUDIT_PACKAGE_NOT_INSTALLED, 'kernel-uek / kernel-uek-debug / kernel-uek-debug-devel / etc');
+}

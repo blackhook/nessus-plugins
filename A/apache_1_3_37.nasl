@@ -1,0 +1,101 @@
+#
+# (C) Tenable Network Security, Inc.
+#
+
+include("compat.inc");
+
+if(description)
+{
+ script_id(31654);
+ script_version("1.26");
+ script_cvs_date("Date: 2018/11/15 20:50:25");
+
+ script_cve_id("CVE-2006-3747");
+ script_bugtraq_id(19204);
+ script_xref(name:"EDB-ID", value:"3680");
+ 
+ script_name(english:"Apache < 1.3.37 mod_rewrite LDAP Protocol URL Handling Overflow");
+
+ script_set_attribute(attribute:"synopsis", value:
+"The remote version of Apache is vulnerable to an off-by-one buffer
+overflow attack." );
+ script_set_attribute(attribute:"description", value:
+"The remote host appears to be running a version of Apache which is
+older than 1.3.37. 
+
+This version contains an off-by-one buffer overflow in the mod_rewrite
+module." );
+ script_set_attribute(attribute:"see_also", value:"https://seclists.org/fulldisclosure/2006/Jul/671");
+ script_set_attribute(attribute:"see_also", value:"https://www.securityfocus.com/archive//443870");
+ script_set_attribute(attribute:"solution", value:"Upgrade to version 1.3.37 or later." );
+ script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:N/C:P/I:P/A:P");
+ script_set_cvss_temporal_vector("CVSS2#E:F/RL:OF/RC:C");
+ script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L");
+ script_set_cvss3_temporal_vector("CVSS:3.0/E:F/RL:O/RC:C");
+ script_set_attribute(attribute:"exploitability_ease", value:"Exploits are available");
+ script_set_attribute(attribute:"exploit_available", value:"true");
+ script_set_attribute(attribute:"exploit_framework_core", value:"true");
+ script_set_attribute(attribute:"metasploit_name", value:'Apache Module mod_rewrite LDAP Protocol Buffer Overflow');
+ script_set_attribute(attribute:"exploit_framework_metasploit", value:"true");
+ script_cwe_id(189);
+
+ script_set_attribute(attribute:"plugin_publication_date", value: "2008/03/26");
+ script_set_attribute(attribute:"vuln_publication_date", value: "2006/07/28");
+ script_set_attribute(attribute:"plugin_type", value:"remote");
+ script_set_attribute(attribute:"cpe", value:"cpe:/a:apache:http_server");
+ script_end_attributes();
+
+ summary["english"] = "Checks for version of Apache";
+ 
+ script_summary(english:summary["english"]);
+ 
+ script_category(ACT_GATHER_INFO);
+ 
+ script_copyright(english:"This script is Copyright (C) 2008-2018 Tenable Network Security, Inc.");
+ script_family(english:"Web Servers");
+ script_dependencie("apache_http_version.nasl");
+ script_require_keys("installed_sw/Apache");
+ script_require_ports("Services/www", 80);
+ exit(0);
+}
+
+#
+# The script code starts here
+#
+include("global_settings.inc");
+include("misc_func.inc");
+include("http.inc");
+include("audit.inc");
+include("install_func.inc");
+
+get_install_count(app_name:"Apache", exit_if_zero:TRUE);
+port = get_http_port(default:80);
+install = get_single_install(app_name:"Apache", port:port, exit_if_unknown_ver:TRUE);
+
+# Check if we could get a version first,  then check if it was
+# backported
+version = get_kb_item_or_exit('www/apache/'+port+'/version', exit_code:1);
+backported = get_kb_item_or_exit('www/apache/'+port+'/backported', exit_code:1);
+
+if (report_paranoia < 2 && backported) audit(AUDIT_BACKPORT_SERVICE, port, 'Apache');
+source = get_kb_item_or_exit('www/apache/'+port+'/source', exit_code:1);
+
+# Check if the version looks like either ServerTokesn Major/Minor
+# was used
+
+if (version =~ '^1(\\.3)?$') audit(AUDIT_VER_NOT_GRANULAR, 'Apache', port, version);
+if (version !~ "^\d+(\.\d+)*$") audit(AUDIT_NONNUMERIC_VER, 'Apache', port, version);
+if (version =~ '^1\\.3' && ver_compare(ver:version, fix:'1.3.37') == -1)
+{
+  if (report_paranoia > 0)
+  {
+    report =
+      '\n  Version source    : ' + source +
+      '\n  Installed version : ' + version +
+      '\n  Fixed version     : 1.3.37\n';
+    security_hole(port:port, extra:report);
+  }
+  else security_hole(port);
+  exit(0);
+}
+else audit(AUDIT_LISTEN_NOT_VULN, "Apache", port, install["version"]);

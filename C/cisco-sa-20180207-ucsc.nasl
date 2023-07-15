@@ -1,0 +1,90 @@
+#
+# (C) Tenable Network Security, Inc.
+#
+
+include("compat.inc");
+
+if (description)
+{
+  script_id(107150);
+  script_version("1.4");
+  script_cvs_date("Date: 2019/11/08");
+
+  script_cve_id("CVE-2018-0113");
+  script_bugtraq_id(102966);
+  script_xref(name:"CISCO-SA", value:"cisco-sa-20180207-ucsc");
+  script_xref(name:"CISCO-BUG-ID", value:"CSCve70825");
+
+  script_name(english:"Cisco UCS Central Software < 2.0(1c) HTTP Request Handling RCE");
+  script_summary(english:"Checks the Cisco UCS Central Software web UI version.");
+
+  script_set_attribute(attribute:"synopsis", value:
+"An infrastructure management application running on the remote host
+is affected by a remote command execution vulnerability.");
+  script_set_attribute(attribute:"description", value:
+"The version of Cisco Unified Computing System (UCS) Central Software
+running on the remote host is prior to 1.3(1c). It is, therefore,
+affected by a flaw in its web framework due to improper validation of
+user-supplied input. An authenticated, remote attacker can exploit
+this, via a specially crafted HTTP request, to execute arbitrary
+commands on the underlying operating system as the daemon user.");
+  # https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180207-ucsc
+  script_set_attribute(attribute:"see_also", value:"http://www.nessus.org/u?b0db34de");
+  script_set_attribute(attribute:"see_also", value:"https://bst.cloudapps.cisco.com/bugsearch/bug/CSCve70825");
+  script_set_attribute(attribute:"see_also", value:"https://www.us-cert.gov/ncas/bulletins/SB18-043");
+  script_set_attribute(attribute:"solution", value:
+"Upgrade to Cisco UCS Central Software version 2.0(1c) or later.");
+  script_set_cvss_base_vector("CVSS2#AV:N/AC:L/Au:S/C:P/I:P/A:P");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2018-0113");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"false");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2018/02/07");
+  script_set_attribute(attribute:"patch_publication_date", value:"2018/02/07");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2018/03/06");
+
+  script_set_attribute(attribute:"plugin_type", value:"remote");
+  script_set_attribute(attribute:"cpe", value:"cpe:/a:cisco:unified_computing_system_central_software");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"CISCO");
+
+  script_copyright(english:"This script is Copyright (C) 2018-2019 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("cisco_ucs_central_webui_detect.nbin");
+  script_require_keys("installed_sw/Cisco UCS Central WebUI");
+  script_require_ports("Services/www", 80, 443);
+
+  exit(0);
+}
+
+include("audit.inc");
+include("cisco_func.inc");
+include("http.inc");
+include("install_func.inc");
+
+port = get_http_port(default:443);
+
+install = get_single_install(app_name:'Cisco UCS Central WebUI', port:port);
+version = install['version'];
+dir = install['path'];
+install_url = build_url(port:port, qs:dir);
+
+if (version == UNKNOWN_VER) audit(AUDIT_UNKNOWN_WEB_APP_VER, 'Cisco UCS Central Software', install_url);
+
+if (cisco_gen_ver_compare(a:version, b:'2.0(1c)') < 0)
+{
+  report = '\n  URL               : ' + install_url +
+           '\n  Installed version : ' + version +
+           '\n  Fixed version     : 2.0(1c) or later' +
+           '\n';
+
+  security_report_v4(port:0, severity:SECURITY_WARNING, extra:report);
+}
+else audit(AUDIT_WEB_APP_NOT_AFFECTED, 'Cisco UCS Central Software', install_url, version);
+

@@ -1,0 +1,223 @@
+#%NASL_MIN_LEVEL 70300
+##
+# (C) Tenable Network Security, Inc.
+#
+# The descriptive text and package checks in this plugin were
+# extracted from Oracle Linux Security Advisory ELSA-2020-5837.
+##
+
+include('deprecated_nasl_level.inc');
+include('compat.inc');
+
+if (description)
+{
+  script_id(140208);
+  script_version("1.4");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2022/05/12");
+
+  script_cve_id(
+    "CVE-2017-16644",
+    "CVE-2019-10638",
+    "CVE-2019-10639",
+    "CVE-2019-19049",
+    "CVE-2019-19062",
+    "CVE-2019-19535",
+    "CVE-2019-20811",
+    "CVE-2020-10732"
+  );
+  script_bugtraq_id(101842, 109092);
+
+  script_name(english:"Oracle Linux 6 / 7 : Unbreakable Enterprise kernel (ELSA-2020-5837)");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote Oracle Linux host is missing one or more security updates.");
+  script_set_attribute(attribute:"description", value:
+"The remote Oracle Linux 6 / 7 host has packages installed that are affected by multiple vulnerabilities as referenced in
+the ELSA-2020-5837 advisory.
+
+  - In the Linux kernel before 5.1.7, a device can be tracked by an attacker using the IP ID values the kernel
+    produces for connection-less protocols (e.g., UDP and ICMP). When such traffic is sent to multiple
+    destination IP addresses, it is possible to obtain hash collisions (of indices to the counter array) and
+    thereby obtain the hashing key (via enumeration). An attack may be conducted by hosting a crafted web page
+    that uses WebRTC or gQUIC to force UDP traffic to attacker-controlled IP addresses. (CVE-2019-10638)
+
+  - The Linux kernel 4.x (starting from 4.1) and 5.x before 5.0.8 allows Information Exposure (partial kernel
+    address disclosure), leading to a KASLR bypass. Specifically, it is possible to extract the KASLR kernel
+    image offset using the IP ID values the kernel produces for connection-less protocols (e.g., UDP and
+    ICMP). When such traffic is sent to multiple destination IP addresses, it is possible to obtain hash
+    collisions (of indices to the counter array) and thereby obtain the hashing key (via enumeration). This
+    key contains enough bits from a kernel address (of a static variable) so when the key is extracted (via
+    enumeration), the offset of the kernel image is exposed. This attack can be carried out remotely, by the
+    attacker forcing the target device to send UDP or ICMP (or certain other) traffic to attacker-controlled
+    IP addresses. Forcing a server to send UDP traffic is trivial if the server is a DNS server. ICMP traffic
+    is trivial if the server answers ICMP Echo requests (ping). For client targets, if the target visits the
+    attacker's web page, then WebRTC or gQUIC can be used to force UDP traffic to attacker-controlled IP
+    addresses. NOTE: this attack against KASLR became viable in 4.1 because IP ID generation was changed to
+    have a dependency on an address associated with a network namespace. (CVE-2019-10639)
+
+  - A memory leak in the crypto_report() function in crypto/crypto_user_base.c in the Linux kernel through
+    5.3.11 allows attackers to cause a denial of service (memory consumption) by triggering
+    crypto_report_alg() failures, aka CID-ffdde5932042. (CVE-2019-19062)
+
+  - A flaw was found in the Linux kernel's implementation of Userspace core dumps. This flaw allows an
+    attacker with a local account to crash a trivial program and exfiltrate private kernel data.
+    (CVE-2020-10732)
+
+  - ** DISPUTED ** A memory leak in the unittest_data_add() function in drivers/of/unittest.c in the Linux
+    kernel before 5.3.10 allows attackers to cause a denial of service (memory consumption) by triggering
+    of_fdt_unflatten_tree() failures, aka CID-e13de8fe0d6a. NOTE: third parties dispute the relevance of this
+    because unittest.c can only be reached during boot. (CVE-2019-19049)
+
+  - An issue was discovered in the Linux kernel before 5.0.6. In rx_queue_add_kobject() and
+    netdev_queue_add_kobject() in net/core/net-sysfs.c, a reference count is mishandled, aka CID-a3e23f719f5c.
+    (CVE-2019-20811)
+
+  - The hdpvr_probe function in drivers/media/usb/hdpvr/hdpvr-core.c in the Linux kernel through 4.13.11
+    allows local users to cause a denial of service (improper error handling and system crash) or possibly
+    have unspecified other impact via a crafted USB device. (CVE-2017-16644)
+
+  - In the Linux kernel before 5.2.9, there is an info-leak bug that can be caused by a malicious USB device
+    in the drivers/net/can/usb/peak_usb/pcan_usb_fd.c driver, aka CID-30a8beeb3042. (CVE-2019-19535)
+
+Note that Nessus has not tested for this issue but has instead relied only on the application's self-reported version
+number.");
+  script_set_attribute(attribute:"see_also", value:"https://linux.oracle.com/errata/ELSA-2020-5837.html");
+  script_set_attribute(attribute:"solution", value:
+"Update the affected packages.");
+  script_set_cvss_base_vector("CVSS2#AV:L/AC:L/Au:N/C:C/I:C/A:C");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2017-16644");
+  script_set_attribute(attribute:"cvss3_score_source", value:"CVE-2019-10639");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"false");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2017/11/07");
+  script_set_attribute(attribute:"patch_publication_date", value:"2020/09/03");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2020/09/04");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:oracle:linux:6");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:oracle:linux:7");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek-debug");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek-debug-devel");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek-devel");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek-doc");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:oracle:linux:kernel-uek-firmware");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Oracle Linux Local Security Checks");
+
+  script_copyright(english:"This script is Copyright (C) 2020-2022 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("linux_alt_patch_detect.nasl", "ssh_get_info.nasl");
+  script_require_keys("Host/OracleLinux", "Host/RedHat/release", "Host/RedHat/rpm-list", "Host/local_checks_enabled");
+
+  exit(0);
+}
+
+
+include('audit.inc');
+include('global_settings.inc');
+include('ksplice.inc');
+include('rpm.inc');
+
+if (!get_kb_item('Host/local_checks_enabled')) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+if (!get_kb_item('Host/OracleLinux')) audit(AUDIT_OS_NOT, 'Oracle Linux');
+var release = get_kb_item("Host/RedHat/release");
+if (isnull(release) || !pregmatch(pattern: "Oracle (?:Linux Server|Enterprise Linux)", string:release)) audit(AUDIT_OS_NOT, 'Oracle Linux');
+var os_ver = pregmatch(pattern: "Oracle (?:Linux Server|Enterprise Linux) .*release ([0-9]+(\.[0-9]+)?)", string:release);
+if (isnull(os_ver)) audit(AUDIT_UNKNOWN_APP_VER, 'Oracle Linux');
+var os_ver = os_ver[1];
+if (! preg(pattern:"^(6|7)([^0-9]|$)", string:os_ver)) audit(AUDIT_OS_NOT, 'Oracle Linux 6 / 7', 'Oracle Linux ' + os_ver);
+
+if (!get_kb_item('Host/RedHat/rpm-list')) audit(AUDIT_PACKAGE_LIST_MISSING);
+
+var cpu = get_kb_item('Host/cpu');
+if (isnull(cpu)) audit(AUDIT_UNKNOWN_ARCH);
+if ('x86_64' >!< cpu && cpu !~ "^i[3-6]86$" && 'aarch64' >!< cpu) audit(AUDIT_LOCAL_CHECKS_NOT_IMPLEMENTED, 'Oracle Linux', cpu);
+if ('x86_64' >!< cpu) audit(AUDIT_ARCH_NOT, 'x86_64', cpu);
+
+var machine_uptrack_level = get_one_kb_item('Host/uptrack-uname-r');
+if (machine_uptrack_level)
+{
+  var trimmed_uptrack_level = ereg_replace(string:machine_uptrack_level, pattern:"\.(x86_64|i[3-6]86|aarch64)$", replace:'');
+  var fixed_uptrack_levels = ['4.1.12-124.42.3.el6uek', '4.1.12-124.42.3.el7uek'];
+  foreach var fixed_uptrack_level ( fixed_uptrack_levels ) {
+    if (rpm_spec_vers_cmp(a:trimmed_uptrack_level, b:fixed_uptrack_level) >= 0)
+    {
+      audit(AUDIT_PATCH_INSTALLED, 'KSplice hotfix for ELSA-2020-5837');
+    }
+  }
+  __rpm_report = 'Running KSplice level of ' + trimmed_uptrack_level + ' does not meet the minimum fixed level of ' + join(fixed_uptrack_levels, sep:' / ') + ' for this advisory.\n\n';
+}
+
+var kernel_major_minor = get_kb_item('Host/uname/major_minor');
+if (empty_or_null(kernel_major_minor)) exit(1, 'Unable to determine kernel major-minor level.');
+var expected_kernel_major_minor = '4.1';
+if (kernel_major_minor != expected_kernel_major_minor)
+  audit(AUDIT_OS_NOT, 'running kernel level ' + expected_kernel_major_minor + ', it is running kernel level ' + kernel_major_minor);
+
+var pkgs = [
+    {'reference':'kernel-uek-4.1.12-124.42.3.el6uek', 'cpu':'x86_64', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-4.1.12'},
+    {'reference':'kernel-uek-debug-4.1.12-124.42.3.el6uek', 'cpu':'x86_64', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-debug-4.1.12'},
+    {'reference':'kernel-uek-debug-devel-4.1.12-124.42.3.el6uek', 'cpu':'x86_64', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-debug-devel-4.1.12'},
+    {'reference':'kernel-uek-devel-4.1.12-124.42.3.el6uek', 'cpu':'x86_64', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-devel-4.1.12'},
+    {'reference':'kernel-uek-doc-4.1.12-124.42.3.el6uek', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-doc-4.1.12'},
+    {'reference':'kernel-uek-firmware-4.1.12-124.42.3.el6uek', 'release':'6', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-firmware-4.1.12'},
+    {'reference':'kernel-uek-4.1.12-124.42.3.el7uek', 'cpu':'x86_64', 'release':'7', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-4.1.12'},
+    {'reference':'kernel-uek-debug-4.1.12-124.42.3.el7uek', 'cpu':'x86_64', 'release':'7', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-debug-4.1.12'},
+    {'reference':'kernel-uek-debug-devel-4.1.12-124.42.3.el7uek', 'cpu':'x86_64', 'release':'7', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-debug-devel-4.1.12'},
+    {'reference':'kernel-uek-devel-4.1.12-124.42.3.el7uek', 'cpu':'x86_64', 'release':'7', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-devel-4.1.12'},
+    {'reference':'kernel-uek-doc-4.1.12-124.42.3.el7uek', 'release':'7', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-doc-4.1.12'},
+    {'reference':'kernel-uek-firmware-4.1.12-124.42.3.el7uek', 'release':'7', 'rpm_spec_vers_cmp':TRUE, 'exists_check':'kernel-uek-firmware-4.1.12'}
+];
+
+var flag = 0;
+foreach var package_array ( pkgs ) {
+  var reference = NULL;
+  var release = NULL;
+  var sp = NULL;
+  var cpu = NULL;
+  var el_string = NULL;
+  var rpm_spec_vers_cmp = NULL;
+  var epoch = NULL;
+  var allowmaj = NULL;
+  var exists_check = NULL;
+  if (!empty_or_null(package_array['reference'])) reference = package_array['reference'];
+  if (!empty_or_null(package_array['release'])) release = 'EL' + package_array['release'];
+  if (!empty_or_null(package_array['sp'])) sp = package_array['sp'];
+  if (!empty_or_null(package_array['cpu'])) cpu = package_array['cpu'];
+  if (!empty_or_null(package_array['el_string'])) el_string = package_array['el_string'];
+  if (!empty_or_null(package_array['rpm_spec_vers_cmp'])) rpm_spec_vers_cmp = package_array['rpm_spec_vers_cmp'];
+  if (!empty_or_null(package_array['epoch'])) epoch = package_array['epoch'];
+  if (!empty_or_null(package_array['allowmaj'])) allowmaj = package_array['allowmaj'];
+  if (!empty_or_null(package_array['exists_check'])) exists_check = package_array['exists_check'];
+  if (reference && release) {
+    if (exists_check) {
+        if (rpm_exists(release:release, rpm:exists_check) && rpm_check(release:release, sp:sp, cpu:cpu, reference:reference, epoch:epoch, el_string:el_string, rpm_spec_vers_cmp:rpm_spec_vers_cmp, allowmaj:allowmaj)) flag++;
+    } else {
+        if (rpm_check(release:release, sp:sp, cpu:cpu, reference:reference, epoch:epoch, el_string:el_string, rpm_spec_vers_cmp:rpm_spec_vers_cmp, allowmaj:allowmaj)) flag++;
+    }
+  }
+}
+
+if (flag)
+{
+  security_report_v4(
+      port       : 0,
+      severity   : SECURITY_HOLE,
+      extra      : rpm_report_get()
+  );
+  exit(0);
+}
+else
+{
+  var tested = pkg_tests_get();
+  if (tested) audit(AUDIT_PACKAGE_NOT_AFFECTED, tested);
+  else audit(AUDIT_PACKAGE_NOT_INSTALLED, 'kernel-uek / kernel-uek-debug / kernel-uek-debug-devel / etc');
+}

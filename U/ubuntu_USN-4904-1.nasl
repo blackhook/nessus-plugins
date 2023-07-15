@@ -1,0 +1,252 @@
+##
+# (C) Tenable Network Security, Inc.
+#
+# The descriptive text and package checks in this plugin were
+# extracted from Ubuntu Security Notice USN-4904-1. The text
+# itself is copyright (C) Canonical, Inc. See
+# <https://ubuntu.com/security/notices>. Ubuntu(R) is a registered
+# trademark of Canonical, Inc.
+##
+
+include('compat.inc');
+
+if (description)
+{
+  script_id(148498);
+  script_version("1.4");
+  script_set_attribute(attribute:"plugin_modification_date", value:"2023/01/17");
+
+  script_cve_id(
+    "CVE-2015-1350",
+    "CVE-2017-5967",
+    "CVE-2017-16644",
+    "CVE-2018-13095",
+    "CVE-2019-16231",
+    "CVE-2019-16232",
+    "CVE-2019-19061",
+    "CVE-2021-20261",
+    "CVE-2021-26930",
+    "CVE-2021-26931",
+    "CVE-2021-28038"
+  );
+  script_xref(name:"USN", value:"4904-1");
+
+  script_name(english:"Ubuntu 16.04 LTS : Linux kernel vulnerabilities (USN-4904-1)");
+
+  script_set_attribute(attribute:"synopsis", value:
+"The remote Ubuntu host is missing one or more security updates.");
+  script_set_attribute(attribute:"description", value:
+"The remote Ubuntu 16.04 LTS host has packages installed that are affected by multiple vulnerabilities as referenced in
+the USN-4904-1 advisory.
+
+  - The VFS subsystem in the Linux kernel 3.x provides an incomplete set of requirements for setattr
+    operations that underspecifies removing extended privilege attributes, which allows local users to cause a
+    denial of service (capability stripping) via a failed invocation of a system call, as demonstrated by
+    using chown to remove a capability from the ping or Wireshark dumpcap program. (CVE-2015-1350)
+
+  - The time subsystem in the Linux kernel through 4.9.9, when CONFIG_TIMER_STATS is enabled, allows local
+    users to discover real PID values (as distinguished from PID values inside a PID namespace) by reading the
+    /proc/timer_list file, related to the print_timer function in kernel/time/timer_list.c and the
+    __timer_stats_timer_set_start_info function in kernel/time/timer.c. (CVE-2017-5967)
+
+  - The hdpvr_probe function in drivers/media/usb/hdpvr/hdpvr-core.c in the Linux kernel through 4.13.11
+    allows local users to cause a denial of service (improper error handling and system crash) or possibly
+    have unspecified other impact via a crafted USB device. (CVE-2017-16644)
+
+  - An issue was discovered in fs/xfs/libxfs/xfs_inode_buf.c in the Linux kernel through 4.17.3. A denial of
+    service (memory corruption and BUG) can occur for a corrupted xfs image upon encountering an inode that is
+    in extent format, but has more extents than fit in the inode fork. (CVE-2018-13095)
+
+  - drivers/net/fjes/fjes_main.c in the Linux kernel 5.2.14 does not check the alloc_workqueue return value,
+    leading to a NULL pointer dereference. (CVE-2019-16231)
+
+  - drivers/net/wireless/marvell/libertas/if_sdio.c in the Linux kernel 5.2.14 does not check the
+    alloc_workqueue return value, leading to a NULL pointer dereference. (CVE-2019-16232)
+
+  - A memory leak in the adis_update_scan_mode_burst() function in drivers/iio/imu/adis_buffer.c in the Linux
+    kernel before 5.3.9 allows attackers to cause a denial of service (memory consumption), aka
+    CID-9c0530e898f3. (CVE-2019-19061)
+
+  - A race condition was found in the Linux kernels implementation of the floppy disk drive controller driver
+    software. The impact of this issue is lessened by the fact that the default permissions on the floppy
+    device (/dev/fd0) are restricted to root. If the permissions on the device have changed the impact changes
+    greatly. In the default configuration root (or equivalent) permissions are required to attack this flaw.
+    (CVE-2021-20261)
+
+  - An issue was discovered in the Linux kernel 3.11 through 5.10.16, as used by Xen. To service requests to
+    the PV backend, the driver maps grant references provided by the frontend. In this process, errors may be
+    encountered. In one case, an error encountered earlier might be discarded by later processing, resulting
+    in the caller assuming successful mapping, and hence subsequent operations trying to access space that
+    wasn't mapped. In another case, internal state would be insufficiently updated, preventing safe recovery
+    from the error. This affects drivers/block/xen-blkback/blkback.c. (CVE-2021-26930)
+
+  - An issue was discovered in the Linux kernel 2.6.39 through 5.10.16, as used in Xen. Block, net, and SCSI
+    backends consider certain errors a plain bug, deliberately causing a kernel crash. For errors potentially
+    being at least under the influence of guests (such as out of memory conditions), it isn't correct to
+    assume a plain bug. Memory allocations potentially causing such crashes occur only when Linux is running
+    in PV mode, though. This affects drivers/block/xen-blkback/blkback.c and drivers/xen/xen-scsiback.c.
+    (CVE-2021-26931)
+
+  - An issue was discovered in the Linux kernel through 5.11.3, as used with Xen PV. A certain part of the
+    netback driver lacks necessary treatment of errors such as failed memory allocations (as a result of
+    changes to the handling of grant mapping errors). A host OS denial of service may occur during misbehavior
+    of a networking frontend driver. NOTE: this issue exists because of an incomplete fix for CVE-2021-26931.
+    (CVE-2021-28038)
+
+Note that Nessus has not tested for this issue but has instead relied only on the application's self-reported version
+number.");
+  script_set_attribute(attribute:"see_also", value:"https://ubuntu.com/security/notices/USN-4904-1");
+  script_set_attribute(attribute:"solution", value:
+"Update the affected packages.");
+  script_set_cvss_base_vector("CVSS2#AV:L/AC:L/Au:N/C:C/I:C/A:C");
+  script_set_cvss_temporal_vector("CVSS2#E:U/RL:OF/RC:C");
+  script_set_cvss3_base_vector("CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H");
+  script_set_cvss3_temporal_vector("CVSS:3.0/E:U/RL:O/RC:C");
+  script_set_attribute(attribute:"cvss_score_source", value:"CVE-2017-16644");
+  script_set_attribute(attribute:"cvss3_score_source", value:"CVE-2021-26930");
+
+  script_set_attribute(attribute:"exploitability_ease", value:"No known exploits are available");
+  script_set_attribute(attribute:"exploit_available", value:"false");
+
+  script_set_attribute(attribute:"vuln_publication_date", value:"2015/07/29");
+  script_set_attribute(attribute:"patch_publication_date", value:"2021/04/13");
+  script_set_attribute(attribute:"plugin_publication_date", value:"2021/04/14");
+
+  script_set_attribute(attribute:"plugin_type", value:"local");
+  script_set_attribute(attribute:"cpe", value:"cpe:/o:canonical:ubuntu_linux:16.04:-:lts");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-4.4.0-1090-aws");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-4.4.0-1091-kvm");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-4.4.0-1126-aws");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-4.4.0-1150-raspi2");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-4.4.0-1154-snapdragon");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-4.4.0-208-generic");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-4.4.0-208-generic-lpae");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-4.4.0-208-lowlatency");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-aws");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-generic");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-generic-lpae");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-generic-lpae-lts-utopic");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-generic-lpae-lts-vivid");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-generic-lpae-lts-wily");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-generic-lpae-lts-xenial");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-generic-lts-utopic");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-generic-lts-vivid");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-generic-lts-wily");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-generic-lts-xenial");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-kvm");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-lowlatency");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-lowlatency-lts-utopic");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-lowlatency-lts-vivid");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-lowlatency-lts-wily");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-lowlatency-lts-xenial");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-raspi2");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-snapdragon");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-virtual");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-virtual-lts-utopic");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-virtual-lts-vivid");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-virtual-lts-wily");
+  script_set_attribute(attribute:"cpe", value:"p-cpe:/a:canonical:ubuntu_linux:linux-image-virtual-lts-xenial");
+  script_end_attributes();
+
+  script_category(ACT_GATHER_INFO);
+  script_family(english:"Ubuntu Local Security Checks");
+
+  script_copyright(english:"Ubuntu Security Notice (C) 2021-2023 Canonical, Inc. / NASL script (C) 2021-2023 and is owned by Tenable, Inc. or an Affiliate thereof.");
+
+  script_dependencies("ssh_get_info.nasl", "linux_alt_patch_detect.nasl");
+  script_require_keys("Host/cpu", "Host/Ubuntu", "Host/Ubuntu/release", "Host/Debian/dpkg-l");
+
+  exit(0);
+}
+
+include('audit.inc');
+include('ubuntu.inc');
+include('ksplice.inc');
+
+if ( ! get_kb_item('Host/local_checks_enabled') ) audit(AUDIT_LOCAL_CHECKS_NOT_ENABLED);
+release = get_kb_item('Host/Ubuntu/release');
+if ( isnull(release) ) audit(AUDIT_OS_NOT, 'Ubuntu');
+release = chomp(release);
+if (! preg(pattern:"^(16\.04)$", string:release)) audit(AUDIT_OS_NOT, 'Ubuntu 16.04', 'Ubuntu ' + release);
+if ( ! get_kb_item('Host/Debian/dpkg-l') ) audit(AUDIT_PACKAGE_LIST_MISSING);
+
+cpu = get_kb_item('Host/cpu');
+if (isnull(cpu)) audit(AUDIT_UNKNOWN_ARCH);
+if ('x86_64' >!< cpu && cpu !~ "^i[3-6]86$" && 's390' >!< cpu && 'aarch64' >!< cpu) audit(AUDIT_LOCAL_CHECKS_NOT_IMPLEMENTED, 'Ubuntu', cpu);
+
+if (get_one_kb_item('Host/ksplice/kernel-cves'))
+{
+  rm_kb_item(name:'Host/uptrack-uname-r');
+  cve_list = make_list('CVE-2015-1350', 'CVE-2017-5967', 'CVE-2017-16644', 'CVE-2018-13095', 'CVE-2019-16231', 'CVE-2019-16232', 'CVE-2019-19061', 'CVE-2021-20261', 'CVE-2021-26930', 'CVE-2021-26931', 'CVE-2021-28038');
+  if (ksplice_cves_check(cve_list))
+  {
+    audit(AUDIT_PATCH_INSTALLED, 'KSplice hotfix for USN-4904-1');
+  }
+  else
+  {
+    _ubuntu_report = ksplice_reporting_text();
+  }
+}
+
+pkgs = [
+    {'osver': '16.04', 'pkgname': 'linux-image-4.4.0-1091-kvm', 'pkgver': '4.4.0-1091.100'},
+    {'osver': '16.04', 'pkgname': 'linux-image-4.4.0-1126-aws', 'pkgver': '4.4.0-1126.140'},
+    {'osver': '16.04', 'pkgname': 'linux-image-4.4.0-1150-raspi2', 'pkgver': '4.4.0-1150.161'},
+    {'osver': '16.04', 'pkgname': 'linux-image-4.4.0-1154-snapdragon', 'pkgver': '4.4.0-1154.164'},
+    {'osver': '16.04', 'pkgname': 'linux-image-4.4.0-208-generic', 'pkgver': '4.4.0-208.240'},
+    {'osver': '16.04', 'pkgname': 'linux-image-4.4.0-208-generic-lpae', 'pkgver': '4.4.0-208.240'},
+    {'osver': '16.04', 'pkgname': 'linux-image-4.4.0-208-lowlatency', 'pkgver': '4.4.0-208.240'},
+    {'osver': '16.04', 'pkgname': 'linux-image-aws', 'pkgver': '4.4.0.1126.131'},
+    {'osver': '16.04', 'pkgname': 'linux-image-generic', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-generic-lpae', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-generic-lpae-lts-utopic', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-generic-lpae-lts-vivid', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-generic-lpae-lts-wily', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-generic-lpae-lts-xenial', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-generic-lts-utopic', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-generic-lts-vivid', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-generic-lts-wily', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-generic-lts-xenial', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-kvm', 'pkgver': '4.4.0.1091.89'},
+    {'osver': '16.04', 'pkgname': 'linux-image-lowlatency', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-lowlatency-lts-utopic', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-lowlatency-lts-vivid', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-lowlatency-lts-wily', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-lowlatency-lts-xenial', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-raspi2', 'pkgver': '4.4.0.1150.150'},
+    {'osver': '16.04', 'pkgname': 'linux-image-snapdragon', 'pkgver': '4.4.0.1154.146'},
+    {'osver': '16.04', 'pkgname': 'linux-image-virtual', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-virtual-lts-utopic', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-virtual-lts-vivid', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-virtual-lts-wily', 'pkgver': '4.4.0.208.214'},
+    {'osver': '16.04', 'pkgname': 'linux-image-virtual-lts-xenial', 'pkgver': '4.4.0.208.214'}
+];
+
+flag = 0;
+foreach package_array ( pkgs ) {
+  osver = NULL;
+  pkgname = NULL;
+  pkgver = NULL;
+  if (!empty_or_null(package_array['osver'])) osver = package_array['osver'];
+  if (!empty_or_null(package_array['pkgname'])) pkgname = package_array['pkgname'];
+  if (!empty_or_null(package_array['pkgver'])) pkgver = package_array['pkgver'];
+  if (osver && pkgname && pkgver) {
+    if (ubuntu_check(osver:osver, pkgname:pkgname, pkgver:pkgver)) flag++;
+  }
+}
+
+if (flag)
+{
+  security_report_v4(
+    port       : 0,
+    severity   : SECURITY_HOLE,
+    extra      : ubuntu_report_get()
+  );
+  exit(0);
+}
+else
+{
+  tested = ubuntu_pkg_tests_get();
+  if (tested) audit(AUDIT_PACKAGE_NOT_AFFECTED, tested);
+  else audit(AUDIT_PACKAGE_NOT_INSTALLED, 'linux-image-4.4.0-1091-kvm / linux-image-4.4.0-1126-aws / etc');
+}
